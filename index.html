@@ -53,8 +53,14 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);borde
 button,.btn{font:inherit;border:0;border-radius:10px;padding:10px 12px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .primary{background:var(--accent);color:var(--accent-ink);font-weight:600;width:100%;margin-top:12px}
 .small{background:var(--soft);color:var(--accent);font-size:14px;white-space:nowrap}
-details.opts{margin-top:10px}
-details.opts summary{cursor:pointer;font-size:14px;color:var(--accent);font-weight:600}
+.ttl{flex:1}
+.iconbtn{background:none;border:0;padding:2px;border-radius:8px;color:var(--muted);line-height:0;cursor:pointer}
+.iconbtn .ti{font-size:22px;color:inherit}
+.iconbtn.on{background:var(--soft);color:var(--accent)}
+#settings[hidden]{display:none}
+.sethead{display:flex;align-items:center;font-weight:600}
+.sethead span{flex:1}
+.sethead .ti{font-size:18px}
 .summary{font-size:13px;color:var(--muted);margin:0 2px 8px}
 ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
@@ -80,7 +86,7 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 </head>
 <body>
 <main>
-<h1><i class="ti ti-run" aria-hidden="true"></i>Parkrun Travel Planner</h1>
+<h1><i class="ti ti-run" aria-hidden="true"></i><span class="ttl">Parkrun Travel Planner</span><button type="button" class="iconbtn" id="setBtn" aria-label="Settings" aria-expanded="false" aria-controls="settings"><i class="ti ti-settings" aria-hidden="true"></i></button></h1>
 
 <div class="pills" id="pills" role="button" tabindex="0" aria-expanded="false" aria-controls="statusDetail">
   <span class="pill" id="evChipP"><i class="ti ti-list-check" aria-hidden="true"></i>Loading…</span>
@@ -95,6 +101,28 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
   <div class="chip" id="liveChip"></div>
 </div>
 
+<section class="panel" id="settings" hidden>
+  <div class="sethead"><span>Settings</span><button type="button" class="iconbtn" id="setClose" aria-label="Close settings"><i class="ti ti-x" aria-hidden="true"></i></button></div>
+    <label class="f" for="car">Car</label>
+    <select id="car">
+      <option value="GASOLINE">Petrol</option>
+      <option value="DIESEL">Diesel</option>
+      <option value="HYBRID">Hybrid</option>
+      <option value="ELECTRIC">Electric</option>
+    </select>
+    <label class="f" for="traffic">Traffic assumption</label>
+    <select id="traffic">
+      <option value="BEST_GUESS">Best guess (uses live traffic)</option>
+      <option value="PESSIMISTIC">Cautious (a bad traffic day)</option>
+      <option value="OPTIMISTIC">Optimistic (a good traffic day)</option>
+    </select>
+    <label class="check"><input type="checkbox" id="avTolls"> Avoid tolls</label>
+    <label class="check"><input type="checkbox" id="avHigh"> Avoid motorways</label>
+    <label class="check"><input type="checkbox" id="avFerry"> Avoid ferries</label>
+    <label class="f" for="key">Google Maps key</label>
+    <input id="key" type="password" autocomplete="off" placeholder="Paste your key once">
+    <div class="hint">Saved on this phone only. Without a key the planner uses distance-based estimates.</div>
+</section>
 <section class="panel">
   <label class="f" for="start">Start from</label>
   <div class="startrow">
@@ -118,28 +146,6 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 
   <label class="check"><input type="checkbox" id="incDone"> Include events I’ve done</label>
 
-  <details class="opts">
-    <summary>More options</summary>
-    <label class="f" for="car">Car</label>
-    <select id="car">
-      <option value="GASOLINE">Petrol</option>
-      <option value="DIESEL">Diesel</option>
-      <option value="HYBRID">Hybrid</option>
-      <option value="ELECTRIC">Electric</option>
-    </select>
-    <label class="f" for="traffic">Traffic assumption</label>
-    <select id="traffic">
-      <option value="BEST_GUESS">Best guess (uses live traffic)</option>
-      <option value="PESSIMISTIC">Cautious (a bad traffic day)</option>
-      <option value="OPTIMISTIC">Optimistic (a good traffic day)</option>
-    </select>
-    <label class="check"><input type="checkbox" id="avTolls"> Avoid tolls</label>
-    <label class="check"><input type="checkbox" id="avHigh"> Avoid motorways</label>
-    <label class="check"><input type="checkbox" id="avFerry"> Avoid ferries</label>
-    <label class="f" for="key">Google Maps key</label>
-    <input id="key" type="password" autocomplete="off" placeholder="Paste your key once; it stays on this phone">
-    <div class="hint">Without a key the planner uses distance-based estimates.</div>
-  </details>
 
   <button class="primary" id="go" type="button">Refresh my top 10</button>
 </section>
@@ -251,7 +257,7 @@ function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d
   els.date.innerHTML=opts.map(o=>`<option value="${iso(o.d)}">${label(o.d)}${o.extra?" ("+(d=>d.getDay()===6?"":DAY[d.getDay()]+", ")(o.d)+o.extra+")":""}</option>`).join("");
   els.date.value=iso(first);
 })();
-function liveChip(){const on=!!els.key.value.trim();chip($("liveChip"),`Live traffic ${on?"on":"off"}`,[on?"Google routes":"add your Google key under More options"],!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"})}
+function liveChip(){const on=!!els.key.value.trim();chip($("liveChip"),`Live traffic ${on?"on":"off"}`,[on?"Google routes":"add your Google key in Settings (cog icon, top right)"],!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"})}
 liveChip();
 function cancChip(){
   const link=`<a href="https://www.parkrun.org.uk/cancellations/" target="_blank" rel="noopener" style="color:inherit">live list</a>`;
@@ -418,6 +424,9 @@ async function run(useLive){
   }finally{busy=false}
 }
 $("go").onclick=()=>run(true);
+const toggleSettings=open=>{const p=$("settings");if(open===undefined)open=p.hidden;p.hidden=!open;$("setBtn").classList.toggle("on",open);$("setBtn").setAttribute("aria-expanded",String(open))};
+$("setBtn").addEventListener("click",()=>toggleSettings());
+$("setClose").addEventListener("click",()=>toggleSettings(false));
 const togglePills=()=>{const d=$("statusDetail"),open=d.hidden;d.hidden=!open;$("pills").setAttribute("aria-expanded",String(open))};
 $("pills").addEventListener("click",togglePills);
 $("pills").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();togglePills()}});
