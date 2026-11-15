@@ -43,7 +43,7 @@ h1 .ti{font-size:22px;line-height:1;color:var(--accent);width:22px;height:22px;f
 .chip b{font-weight:600}
 .chip.stale{background:var(--amber-soft);color:var(--amber)}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px}
-label.f{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+label.f{display:block;font-size:12px;color:var(--muted);margin:14px 0 4px;text-transform:uppercase;letter-spacing:.04em}
 label.f:first-child{margin-top:0}
 input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px}
 .row{display:flex;gap:10px}
@@ -51,6 +51,7 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);borde
 .startrow{display:flex;gap:8px}
 .startrow input{flex:1}
 .hint{font-size:12px;color:var(--muted);margin-top:6px}
+.hint:empty{display:none}
 .err{color:var(--amber)}
 .check{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px}
 .check input{width:auto}
@@ -143,11 +144,11 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 <section class="panel">
   <label class="f" for="start">Start from</label>
   <div class="startrow">
-    <input id="start" list="places" autocomplete="off" placeholder="Postcode, town, parkrun or coordinates">
+    <input id="start" list="places" autocomplete="off" placeholder="Postcode, town or parkrun">
     <button class="locbtn" id="gps" type="button" aria-label="Use my current location" title="Use my current location"><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" /><path d="M12 2l0 2" /><path d="M12 20l0 2" /><path d="M20 12l2 0" /><path d="M2 12l2 0" /></svg></button>
   </div>
   <datalist id="places"></datalist>
-  <div class="hint" id="startHint">Type a postcode, a town or a parkrun name, or tap the location button.</div>
+  <div class="hint" id="startHint"></div>
 
   <div class="row">
     <div><label class="f" for="date">Date</label><select id="date"></select></div>
@@ -403,7 +404,7 @@ async function run(useLive){
     saveSettings(); liveChip();
     const s=await resolveStart(els.start.value);
     if(!s){if(els.start.value.trim()!==LOC)$("startHint").innerHTML=`<span class="err">Couldn’t find that start point.</span> Try a postcode, a town, a parkrun name or tap the location button.`;return}
-    $("startHint").innerHTML=s.name===LOC?`Starting from your current location${s.acc?` <span class="nw">(within ${s.acc<1000?s.acc+"\u00a0m":(s.acc/1000).toFixed(1)+"\u00a0km"})</span>`:""}.`:`Starting from ${s.name}.`;
+    $("startHint").innerHTML=s.name===LOC?`Starting from your current location${s.acc?` <span class="nw">(within ${s.acc<1000?s.acc+"\u00a0m":(s.acc/1000).toFixed(1)+"\u00a0km"})</span>`:""}.`:(s.name===els.start.value.trim()||s.name===els.start.value.trim()+" parkrun"||s.name===HOME.name?"":`Starting from ${s.name}.`);
     const early=+els.early.value||0;
     cancChip();
     const cmap=cancFor(els.date.value), skipped=[];
