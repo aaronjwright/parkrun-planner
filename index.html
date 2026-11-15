@@ -318,7 +318,7 @@ function departIso(dateIso,minOfDay){
 // ---------- Google Routes ----------
 async function gpost(url,body,mask){
   const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","X-Goog-Api-Key":els.key.value.trim(),"X-Goog-FieldMask":mask},body:JSON.stringify(body)});
-  const j=await r.json(); if(!r.ok) throw new Error((j.error&&j.error.message)||("Google error "+r.status)); return j;
+  const j=await r.json(); if(!r.ok){const e=Array.isArray(j)?(j[0]&&j[0].error):j.error; throw new Error((e&&e.message)||("Google error "+r.status))} return j;
 }
 const ll=(lat,lon)=>({location:{latLng:{latitude:lat,longitude:lon}}});
 function modifiers(withVehicle){
