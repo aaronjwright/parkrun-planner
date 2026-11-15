@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-21",
+  "checked": "2026-11-15T15:12:00Z",
+  "events": [
+    {"name": "ARU Writtle", "reason": "Venue unavailable"},
+    {"name": "Ae Forest", "reason": "Venue unavailable"},
+    {"name": "Carrickfergus", "reason": "Venue unavailable"},
+    {"name": "Croxteth Hall", "reason": "Venue unavailable"},
+    {"name": "Flegg High", "reason": "Venue unavailable"},
+    {"name": "Markshall", "reason": "Permission issue"},
+    {"name": "Montalto Estate", "reason": "Venue unavailable"},
+    {"name": "Ormskirk", "reason": "Venue unavailable"},
+    {"name": "Queen Elizabeth’s Grammar School", "reason": "Venue unavailable"},
+    {"name": "Swanley", "reason": "Venue unavailable"},
+    {"name": "Town Moor", "reason": "Venue unavailable"},
+    {"name": "Wetherby", "reason": "Shortage of volunteers"},
+    {"name": "Worthing", "reason": "Course unsafe or blocked"}
+  ]
+}

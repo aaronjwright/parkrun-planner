@@ -76,6 +76,7 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 <div class="status">
   <div class="chip" id="evChip">Loading events…</div>
   <div class="chip" id="doneChip"></div>
+  <div class="chip" id="cancChip"></div>
   <div class="chip" id="liveChip"></div>
 </div>
 
@@ -179,6 +180,12 @@ function isScotland(lat,lon){
 }
 const all=rawEvents.map(e=>({...e,done:!!doneInfo[e.slug],count:doneInfo[e.slug]?.count||0,startMin:(isScotland(e.lat,e.lon)||isNI(e))?570:540}));
 const todoCount=all.filter(e=>!e.done).length;
+let CANC=null;
+try{CANC=await (await fetch("cancellations.json",{cache:"no-store"})).json()}catch(e){}
+const norm=n=>String(n).toLowerCase().replace(/[’']/g,"'").replace(/\s+parkrun$/,"").trim();
+function cancFor(dateIso){
+  const m={}; if(CANC&&CANC.date===dateIso)(CANC.events||[]).forEach(c=>m[norm(c.name)]=c.reason||"Cancelled"); return m;
+}
 
 // ---------- status chips ----------
 const ageDays=iso=>(Date.now()-new Date(iso+"T12:00:00"))/864e5;
@@ -230,6 +237,14 @@ function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d
 })();
 function liveChip(){const on=!!els.key.value.trim();chip($("liveChip"),`Live traffic ${on?"on":"off"}`,[on?"Google routes":"add your Google key under More options"],!on,false)}
 liveChip();
+function cancChip(){
+  const link=`<a href="https://www.parkrun.org.uk/cancellations/" target="_blank" rel="noopener" style="color:inherit">live list</a>`;
+  if(CANC&&CANC.date===els.date.value){
+    const t=new Date(CANC.checked).toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+    chip($("cancChip"),"Cancellations",[`checked ${t}`,`${(CANC.events||[]).length} UK events off`,link],false,false);
+  }else chip($("cancChip"),"Cancellations",["not checked for this date yet",link],false,false);
+}
+cancChip();
 $("places").innerHTML=[HOME.name,...all.map(e=>e.name).sort()].map(n=>`<option value="${n.replace(/"/g,"&quot;")}">`).join("");
 
 // ---------- start location ----------
@@ -338,9 +353,12 @@ async function run(useLive){
     if(!s){$("startHint").innerHTML=`<span class="err">Couldn’t find that start point.</span> Try a postcode, a town, a parkrun name or Use GPS.`;return}
     $("startHint").textContent=`Starting from ${s.name}.`;
     const early=+els.early.value||0;
+    cancChip();
+    const cmap=cancFor(els.date.value), skipped=[];
     let cands=all.filter(e=>els.inc.checked||!(e.done||manualDone[e.slug]))
       .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done||!!manualDone[e.slug],km:est.roadKm,min:est.min,live:false}})
       .sort((a,b)=>a.min-b.min);
+    cands=cands.filter((c,i)=>{const r=cmap[norm(c.name)];if(r){if(i<12)skipped.push(`${c.name} (${r.toLowerCase()})`);return false}return true});
     let note="";
     const dayKey="ptp.refresh."+todayIso(), usedToday=store.get(dayKey,0), DAILY_LIMIT=10;
     if(useLive===true&&els.key.value.trim()&&usedToday>=DAILY_LIMIT){note=`Daily limit of ${DAILY_LIMIT} live refreshes reached, so showing estimates. It resets tomorrow.`;useLive=false}
@@ -360,7 +378,7 @@ async function run(useLive){
     const day=new Date(els.date.value+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
     const rLabel={fastest:"fastest route",shortest:"shortest route",eco:"most economical route"}[routeType];
     const isLive=cands.some(c=>c.live);
-    $("summary").textContent=`${day} · arrive ${early} min early · ${isLive?rLabel+", live traffic":"estimated times"+(els.key.value.trim()?" (tap Refresh for live)":"")} · updated ${new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}${note?" · "+note:""}`;
+    $("summary").textContent=`${day} · arrive ${early} min early · ${isLive?rLabel+", live traffic":"estimated times"+(els.key.value.trim()?" (tap Refresh for live)":"")} · updated ${new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}${note?" · "+note:""}${skipped.length?" · Left out as cancelled: "+skipped.join(", "):""}`;
     const org=`${s.lat},${s.lon}`;
     $("list").innerHTML=cands.map((r,i)=>{
       const tag=r.isDone?`<span class="tag">done${r.count?" ×"+r.count:""}</span>`:`<span class="tag new">new</span>`;
