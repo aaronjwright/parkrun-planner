@@ -75,6 +75,10 @@ button,.btn{font:inherit;border:0;border-radius:10px;padding:10px 12px;cursor:po
 .sethead span{flex:1}
 .sethead .ti{font-size:18px}
 .summary{font-size:13px;color:var(--muted);margin:0 2px 8px}
+.summary:empty{display:none}
+.sline{display:block}
+.sline.warn{color:var(--amber);margin-top:2px}
+.sline .ti{font-size:14px;vertical-align:-2px;margin-right:4px}
 ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
 .card{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-areas:"rank name leave nav" ". meta leave nav";column-gap:10px;row-gap:2px;align-items:center;padding:10px 12px}
@@ -411,14 +415,15 @@ async function run(useLive){
         live.sort((a,b)=>a.min-b.min);
         cands=live.slice(0,10);
         await Promise.all(cands.map(c=>routeFor(s,c,early).catch(()=>{})));
-      }catch(err){note=`Google didn’t respond (${err.message}). Showing estimates instead.`;cands=cands.slice(0,10)}
+      }catch(err){note=`Google didn’t respond (${err.message}), so these are estimates.`;cands=cands.slice(0,10)}
     }else cands=cands.slice(0,10);
     cands.forEach(c=>c.leave=c.startMin-early-c.min);
     lastLive=cands.some(c=>c.live);
-    const dd=new Date(els.date.value+"T12:00:00"), day=`${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][dd.getDay()]} ${String(dd.getDate()).padStart(2,"0")}-${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][dd.getMonth()]}-${dd.getFullYear()}`;
-    const rLabel={fastest:"fastest route",shortest:"shortest route",eco:"most economical route"}[routeType];
     const isLive=cands.some(c=>c.live);
-    $("summary").textContent=`${day} · arrive ${early} min early · ${isLive?rLabel+", live traffic":"estimated times"+(els.key.value.trim()?" (tap Refresh for live)":"")} · updated ${new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}${note?" · "+note:""}${skipped.length?" · Left out as cancelled: "+skipped.join(", "):""}`;
+    const upd=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+    const rShort={fastest:"fastest route",shortest:"shortest route",eco:"economical route"}[routeType];
+    const line1=isLive?`Live traffic · ${rShort} · updated ${upd}`:`Estimated times${els.key.value.trim()?" · tap Refresh for live":""} · updated ${upd}`;
+    $("summary").innerHTML=`<span class="sline">${line1}</span>${note?`<span class="sline warn">${note}</span>`:""}${skipped.length?`<span class="sline warn">${ic("ban")}Left out as cancelled: ${skipped.join(", ")}</span>`:""}`;
     const org=`${s.lat},${s.lon}`;
     $("list").innerHTML=cands.map((r,i)=>{
       const tag=r.isDone?`<span class="tag">done${r.count?" ×"+r.count:""}</span>`:`<span class="tag new">new</span>`;
