@@ -321,7 +321,10 @@ async function run(useLive){
       .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done||!!manualDone[e.slug],km:est.roadKm,min:est.min,live:false}})
       .sort((a,b)=>a.min-b.min);
     let note="";
+    const dayKey="ptp.refresh."+todayIso(), usedToday=store.get(dayKey,0), DAILY_LIMIT=10;
+    if(useLive===true&&els.key.value.trim()&&usedToday>=DAILY_LIMIT){note=`Daily limit of ${DAILY_LIMIT} live refreshes reached, so showing estimates. It resets tomorrow.`;useLive=false}
     if(useLive===true&&els.key.value.trim()){
+      store.set(dayKey,usedToday+1);
       $("summary").textContent="Getting live drive times from Google…";
       try{
         const shortlist=cands.slice(0,CANDIDATES);
@@ -354,7 +357,7 @@ async function run(useLive){
          ${r.isDone?"":`<button class="btn ghost" data-done="${r.slug}" type="button">Mark as done</button>`}
         </div></li>`}).join("");
     const used=store.get("ptp.usage."+todayIso().slice(0,7),0);
-    $("foot").innerHTML=`${isLive?`Live times from Google for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Google requests this month on this phone: ${used}.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
+    $("foot").innerHTML=`${isLive?`Live times from Google for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Google requests this month on this phone: ${used}. Live refreshes today: ${store.get("ptp.refresh."+todayIso(),0)} of 10.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
       Navigate opens Google Maps, which picks its own route. Start times assume 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland; check the event page for any local change.`;
   }finally{busy=false}
 }
