@@ -57,6 +57,10 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);borde
 button,.btn{font:inherit;border:0;border-radius:10px;padding:10px 12px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .primary{background:var(--accent);color:var(--accent-ink);font-weight:600;width:100%;margin-top:12px}
 .small{background:var(--soft);color:var(--accent);font-size:14px;white-space:nowrap}
+.locbtn{background:var(--soft);color:var(--accent);width:44px;flex:none;padding:0}
+.locbtn .ti{font-size:22px}
+.locbtn.busy .ti{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
 .ttl{flex:1}
 .iconbtn{background:none;border:0;padding:2px;border-radius:8px;color:var(--muted);line-height:0;cursor:pointer}
 .iconbtn .ti{font-size:22px;color:inherit}
@@ -131,10 +135,10 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
   <label class="f" for="start">Start from</label>
   <div class="startrow">
     <input id="start" list="places" autocomplete="off" placeholder="Postcode, town, parkrun or coordinates">
-    <button class="small" id="gps" type="button">Use GPS</button>
+    <button class="locbtn" id="gps" type="button" aria-label="Use my current location" title="Use my current location"><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" /><path d="M12 2l0 2" /><path d="M12 20l0 2" /><path d="M20 12l2 0" /><path d="M2 12l2 0" /></svg></button>
   </div>
   <datalist id="places"></datalist>
-  <div class="hint" id="startHint">Type a postcode, a town, a parkrun name, or tap Use GPS.</div>
+  <div class="hint" id="startHint">Type a postcode, a town or a parkrun name, or tap the location button.</div>
 
   <div class="row">
     <div><label class="f" for="date">Date</label><select id="date"></select></div>
@@ -176,6 +180,7 @@ const store={
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 };
 const HOME={name:"Hethersett (home)",lat:52.6005,lon:1.1745};
+const LOC="Current location", LOC_MAX_AGE=30*60000;
 const CANDIDATES=25;   // nearest by straight line sent to Google for live times
 const fmtDate=iso=>new Date(iso+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
 const todayIso=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
@@ -274,19 +279,28 @@ function cancChip(){
   }else chip($("cancChip"),"Cancellations",["not checked for this date yet",link],false,false,{icon:"ban",text:"Not checked"});
 }
 cancChip();
-$("places").innerHTML=[HOME.name,...all.map(e=>e.name).sort()].map(n=>`<option value="${n.replace(/"/g,"&quot;")}">`).join("");
+$("places").innerHTML=[LOC,HOME.name,...all.map(e=>e.name).sort()].map(n=>`<option value="${n.replace(/"/g,"&quot;")}">`).join("");
 
 // ---------- start location ----------
-let gpsPoint=null;
-$("gps").onclick=()=>{
-  if(!navigator.geolocation){$("startHint").innerHTML=`<span class="err">This browser can’t share your location.</span>`;return}
-  $("startHint").textContent="Finding your location…";
-  navigator.geolocation.getCurrentPosition(p=>{gpsPoint={name:"Current location",lat:p.coords.latitude,lon:p.coords.longitude};els.start.value="Current location";run()},
-    ()=>{$("startHint").innerHTML=`<span class="err">Location not available. Check Chrome’s location permission.</span>`},{enableHighAccuracy:false,timeout:10000});
-};
+let gpsPoint=store.get("ptp.gps",null);
+function locate(){
+  return new Promise(resolve=>{
+    if(!navigator.geolocation){$("startHint").innerHTML=`<span class="err">This browser can’t share your location.</span>`;return resolve(null)}
+    $("gps").classList.add("busy"); $("startHint").textContent="Finding your location…";
+    const done=v=>{$("gps").classList.remove("busy");resolve(v)};
+    const ok=p=>{gpsPoint={name:LOC,lat:p.coords.latitude,lon:p.coords.longitude,acc:Math.round(p.coords.accuracy||0),ts:Date.now()};store.set("ptp.gps",gpsPoint);done(gpsPoint)};
+    const fail=(e,tryAgain)=>{
+      if(tryAgain) return navigator.geolocation.getCurrentPosition(ok,e2=>fail(e2,false),{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+      const msg=e&&e.code===1?"Location is blocked for this page. In Chrome, tap the icon next to the address, then Permissions, and allow Location.":"Couldn’t get your location just now. Check location is switched on, then try again.";
+      $("startHint").innerHTML=`<span class="err">${msg}</span>`; done(null);
+    };
+    navigator.geolocation.getCurrentPosition(ok,e=>fail(e,e&&e.code!==1),{enableHighAccuracy:false,timeout:12000,maximumAge:120000});
+  });
+}
+$("gps").onclick=async()=>{const p=await locate(); if(p){els.start.value=LOC; run(lastLive)}};
 async function resolveStart(txt){
   txt=(txt||"").trim(); if(!txt) return null;
-  if(txt==="Current location"&&gpsPoint) return gpsPoint;
+  if(txt===LOC){ if(gpsPoint&&Date.now()-(gpsPoint.ts||0)<LOC_MAX_AGE) return gpsPoint; return (await locate())||null; }
   if(txt===HOME.name||/^home$|^hethersett$/i.test(txt)) return HOME;
   const ev=all.find(e=>e.name.toLowerCase()===txt.toLowerCase());
   if(ev) return {name:ev.name+" parkrun",lat:ev.lat,lon:ev.lon};
@@ -379,8 +393,8 @@ async function run(useLive){
   try{
     saveSettings(); liveChip();
     const s=await resolveStart(els.start.value);
-    if(!s){$("startHint").innerHTML=`<span class="err">Couldn’t find that start point.</span> Try a postcode, a town, a parkrun name or Use GPS.`;return}
-    $("startHint").textContent=`Starting from ${s.name}.`;
+    if(!s){if(els.start.value.trim()!==LOC)$("startHint").innerHTML=`<span class="err">Couldn’t find that start point.</span> Try a postcode, a town, a parkrun name or tap the location button.`;return}
+    $("startHint").textContent=s.name===LOC?`Starting from your current location${s.acc?` (to within about ${s.acc<1000?s.acc+" m":(s.acc/1000).toFixed(1)+" km"})`:""}.`:`Starting from ${s.name}.`;
     const early=+els.early.value||0;
     cancChip();
     const cmap=cancFor(els.date.value), skipped=[];
