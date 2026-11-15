@@ -55,7 +55,7 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);borde
 #startHint:not(:empty){margin:8px 0 10px}
 .err{color:var(--amber)}
 .check{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px}
-.check input{width:auto}
+.check input{width:auto;accent-color:var(--accent)}
 .seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .seg button{flex:1;background:var(--bg);color:var(--ink);border-radius:0;padding:9px 4px;font-size:14px}
 .seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
@@ -228,7 +228,7 @@ const ageDays=iso=>(Date.now()-new Date(iso+"T12:00:00"))/864e5;
 const chip=(el,title,parts,stale,overdue=stale,pill=null)=>{el.innerHTML=`<span class="t">${title}${overdue?" · overdue":""}</span><span class="d">${parts.map(p=>`<span class="nw">${p}</span>`).join(" · ")}</span>`;el.classList.toggle("stale",!!stale);
   const pe=document.getElementById(el.id+"P"); if(pe&&pill){pe.innerHTML=`${ic(pill.icon)}${pill.text}${overdue?" · overdue":""}`;pe.classList.toggle("stale",!!stale);pe.classList.toggle("alert",!!pill.alert)}};
 chip($("evChip"),"Events list",[eventsSource==="live"?"live from parkrun":`updated ${fmtDate(DATA.eventsUpdated)}`,`${todoCount} UK events left to do`],eventsSource!=="live"&&ageDays(DATA.eventsUpdated)>10,undefined,{icon:"list-check",text:`${todoCount} left${eventsSource==="live"?" · live":""}`});
-chip($("doneChip"),`Completed list · updated ${fmtDate(DATA.completedUpdated)}`,[`Latest: ${DATA.latest}`,`${DATA.totalRuns} runs`,`${DATA.distinct} events`],ageDays(DATA.completedUpdated)>10,undefined,{icon:"flag",text:`Done · ${new Date(DATA.completedUpdated+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`});
+chip($("doneChip"),`Completed list · updated ${fmtDate(DATA.completedUpdated)}`,[`Latest: ${DATA.latest}`,`${DATA.totalRuns} runs`,`${DATA.distinct} events`],ageDays(DATA.completedUpdated)>10,undefined,{icon:"flag",text:`Updated ${new Date(DATA.completedUpdated+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`});
 
 // ---------- settings ----------
 const els={start:$("start"),date:$("date"),early:$("early"),inc:$("incDone"),car:$("car"),traffic:$("traffic"),tolls:$("avTolls"),high:$("avHigh"),ferry:$("avFerry"),key:$("key")};
