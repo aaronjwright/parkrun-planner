@@ -86,7 +86,7 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 
   <div class="row">
     <div><label class="f" for="date">Date</label><select id="date"></select></div>
-    <div><label class="f" for="early">Arrive early (min)</label><input id="early" type="number" min="0" max="120" step="5" value="30"></div>
+    <div><label class="f" for="early">Arrive early</label><select id="early"></select></div>
   </div>
 
   <label class="f">Route</label>
@@ -192,7 +192,9 @@ function setRoute(v){routeType=v;[...$("routeSeg").children].forEach(b=>b.classL
 setRoute(routeType);
 $("routeSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(b){setRoute(b.dataset.v);store.set("ptp.route",routeType);run(lastLive)}});
 els.start.value=store.get("ptp.start",HOME.name);
-els.early.value=store.get("ptp.early",30);
+els.early.innerHTML=[0,5,10,15,20,25,30,35,40,45,50,55,60,75,90].map(m=>`<option value="${m}">${m} min</option>`).join("");
+els.early.value=String(store.get("ptp.early",30));
+if(!els.early.value)els.early.value="30";
 els.inc.checked=store.get("ptp.incDone",false);
 els.car.value=store.get("ptp.car","ELECTRIC");
 els.traffic.value=store.get("ptp.traffic","BEST_GUESS");
@@ -210,6 +212,7 @@ function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d
 (function(){
   const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const DAY=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
   const label=d=>`${String(d.getDate()).padStart(2,"0")}-${MON[d.getMonth()]}-${d.getFullYear()}`;
   const first=nextSat(), opts=[];
   for(let i=0;i<12;i++){const d=new Date(first);d.setDate(first.getDate()+7*i);opts.push({d,extra:""})}
@@ -221,7 +224,7 @@ function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d
     }
   });
   opts.sort((a,b)=>a.d-b.d);
-  els.date.innerHTML=opts.map(o=>`<option value="${iso(o.d)}">${label(o.d)}${o.extra?" ("+o.extra+")":""}</option>`).join("");
+  els.date.innerHTML=opts.map(o=>`<option value="${iso(o.d)}">${label(o.d)}${o.extra?" ("+(d=>d.getDay()===6?"":DAY[d.getDay()]+", ")(o.d)+o.extra+")":""}</option>`).join("");
   els.date.value=iso(first);
 })();
 function liveChip(){const on=!!els.key.value.trim();$("liveChip").innerHTML=on?`Live traffic <b>on</b> · Google routes`:`Live traffic <b>off</b> · add your Google key under More options`;$("liveChip").classList.toggle("stale",!on)}
@@ -381,6 +384,7 @@ async function run(useLive){
 $("go").onclick=()=>run(true);
 els.start.addEventListener("change",run);
 els.inc.addEventListener("change",run);
+els.early.addEventListener("change",()=>run(lastLive));
 els.date.addEventListener("change",()=>run(false));
 els.key.addEventListener("change",()=>{saveSettings();liveChip()});
 [els.car,els.traffic,els.tolls,els.high,els.ferry,els.early,els.date].forEach(el=>el.addEventListener("change",saveSettings));
