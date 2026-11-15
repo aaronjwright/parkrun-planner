@@ -19,7 +19,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-ap
 main{max-width:560px;margin:0 auto;padding:16px 14px 40px}
 h1{font-size:20px;margin:4px 0 10px;letter-spacing:-.01em}
 .status{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.chip{font-size:13px;padding:7px 10px;border-radius:10px;background:var(--soft)}
+.chip{font-size:13px;padding:7px 10px;border-radius:10px;background:var(--soft);line-height:1.35}
+.chip .t{display:block;font-weight:600}
+.chip .d{display:block;color:var(--muted)}
+.chip.stale .d{color:inherit}
+.nw{white-space:nowrap}
 .chip b{font-weight:600}
 .chip.stale{background:var(--amber-soft);color:var(--amber)}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px}
@@ -178,12 +182,9 @@ const todoCount=all.filter(e=>!e.done).length;
 
 // ---------- status chips ----------
 const ageDays=iso=>(Date.now()-new Date(iso+"T12:00:00"))/864e5;
-$("evChip").innerHTML = eventsSource==="live"
-  ? `Events list <b>live from parkrun</b> · ${todoCount} UK events left to do`
-  : `Events list updated <b>${fmtDate(DATA.eventsUpdated)}</b> · ${todoCount} UK events left to do`;
-if(eventsSource!=="live"&&ageDays(DATA.eventsUpdated)>10){$("evChip").classList.add("stale");$("evChip").innerHTML+=" · <b>overdue</b>"}
-$("doneChip").innerHTML=`Completed list updated <b>${fmtDate(DATA.completedUpdated)}</b> · latest ${DATA.latest} · ${DATA.totalRuns} runs, ${DATA.distinct} events`;
-if(ageDays(DATA.completedUpdated)>10){$("doneChip").classList.add("stale");$("doneChip").innerHTML+=" · <b>overdue</b>"}
+const chip=(el,title,parts,stale,overdue=stale)=>{el.innerHTML=`<span class="t">${title}${overdue?" · overdue":""}</span><span class="d">${parts.map(p=>`<span class="nw">${p}</span>`).join(" · ")}</span>`;el.classList.toggle("stale",!!stale)};
+chip($("evChip"),"Events list",[eventsSource==="live"?"live from parkrun":`updated ${fmtDate(DATA.eventsUpdated)}`,`${todoCount} UK events left to do`],eventsSource!=="live"&&ageDays(DATA.eventsUpdated)>10);
+chip($("doneChip"),`Completed list · updated ${fmtDate(DATA.completedUpdated)}`,[`Latest: ${DATA.latest}`,`${DATA.totalRuns} runs`,`${DATA.distinct} events`],ageDays(DATA.completedUpdated)>10);
 
 // ---------- settings ----------
 const els={start:$("start"),date:$("date"),early:$("early"),inc:$("incDone"),car:$("car"),traffic:$("traffic"),tolls:$("avTolls"),high:$("avHigh"),ferry:$("avFerry"),key:$("key")};
@@ -227,7 +228,7 @@ function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d
   els.date.innerHTML=opts.map(o=>`<option value="${iso(o.d)}">${label(o.d)}${o.extra?" ("+(d=>d.getDay()===6?"":DAY[d.getDay()]+", ")(o.d)+o.extra+")":""}</option>`).join("");
   els.date.value=iso(first);
 })();
-function liveChip(){const on=!!els.key.value.trim();$("liveChip").innerHTML=on?`Live traffic <b>on</b> · Google routes`:`Live traffic <b>off</b> · add your Google key under More options`;$("liveChip").classList.toggle("stale",!on)}
+function liveChip(){const on=!!els.key.value.trim();chip($("liveChip"),`Live traffic ${on?"on":"off"}`,[on?"Google routes":"add your Google key under More options"],!on,false)}
 liveChip();
 $("places").innerHTML=[HOME.name,...all.map(e=>e.name).sort()].map(n=>`<option value="${n.replace(/"/g,"&quot;")}">`).join("");
 
