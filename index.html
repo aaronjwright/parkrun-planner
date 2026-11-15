@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Parkrun Travel Planner</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
 :root{
   --bg:#f6f5f2;--card:#ffffff;--ink:#1d1f21;--muted:#6b6f73;--line:#e3e1dc;
@@ -19,7 +18,7 @@
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 main{max-width:560px;margin:0 auto;padding:16px 14px 40px}
 h1{font-size:20px;margin:4px 0 10px;letter-spacing:-.01em;line-height:1.3;display:flex;align-items:center;gap:6px}
-h1 .ti{font-size:22px;line-height:1;color:var(--accent);width:22px;flex:none}
+h1 .ti{font-size:22px;line-height:1;color:var(--accent);width:22px;height:22px;flex:none}
 .status{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .status[hidden]{display:none}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;cursor:pointer}
@@ -86,10 +85,10 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 </head>
 <body>
 <main>
-<h1><i class="ti ti-run" aria-hidden="true"></i><span class="ttl">Parkrun Travel Planner</span><button type="button" class="iconbtn" id="setBtn" aria-label="Settings" aria-expanded="false" aria-controls="settings"><i class="ti ti-settings" aria-hidden="true"></i></button></h1>
+<h1><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M4 17l5 1l.75 -1.5"/><path d="M15 21l0 -4l-4 -3l1 -6"/><path d="M7 12l0 -3l5 -1l3 3l3 1"/></svg><span class="ttl">Parkrun Travel Planner</span><button type="button" class="iconbtn" id="setBtn" aria-label="Settings" aria-expanded="false" aria-controls="settings"><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg></button></h1>
 
 <div class="pills" id="pills" role="button" tabindex="0" aria-expanded="false" aria-controls="statusDetail">
-  <span class="pill" id="evChipP"><i class="ti ti-list-check" aria-hidden="true"></i>Loading…</span>
+  <span class="pill" id="evChipP"><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 5.5l1.5 1.5l2.5 -2.5"/><path d="M3.5 11.5l1.5 1.5l2.5 -2.5"/><path d="M3.5 17.5l1.5 1.5l2.5 -2.5"/><path d="M11 6l9 0"/><path d="M11 12l9 0"/><path d="M11 18l9 0"/></svg>Loading…</span>
   <span class="pill" id="doneChipP"></span>
   <span class="pill" id="cancChipP"></span>
   <span class="pill" id="liveChipP"></span>
@@ -102,7 +101,7 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 </div>
 
 <section class="panel" id="settings" hidden>
-  <div class="sethead"><span>Settings</span><button type="button" class="iconbtn" id="setClose" aria-label="Close settings"><i class="ti ti-x" aria-hidden="true"></i></button></div>
+  <div class="sethead"><span>Settings</span><button type="button" class="iconbtn" id="setClose" aria-label="Close settings"><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6l-12 12"/><path d="M6 6l12 12"/></svg></button></div>
     <label class="f" for="car">Car</label>
     <select id="car">
       <option value="GASOLINE">Petrol</option>
@@ -164,6 +163,8 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 
 <script>
 (async function(){
+const ICONS={"run": "<path d=\"M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\"/><path d=\"M4 17l5 1l.75 -1.5\"/><path d=\"M15 21l0 -4l-4 -3l1 -6\"/><path d=\"M7 12l0 -3l5 -1l3 3l3 1\"/>", "settings": "<path d=\"M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z\"/><path d=\"M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0\"/>", "list-check": "<path d=\"M3.5 5.5l1.5 1.5l2.5 -2.5\"/><path d=\"M3.5 11.5l1.5 1.5l2.5 -2.5\"/><path d=\"M3.5 17.5l1.5 1.5l2.5 -2.5\"/><path d=\"M11 6l9 0\"/><path d=\"M11 12l9 0\"/><path d=\"M11 18l9 0\"/>", "flag": "<path d=\"M5 5a5 5 0 0 1 7 0a5 5 0 0 0 7 0v9a5 5 0 0 1 -7 0a5 5 0 0 0 -7 0v-9z\"/><path d=\"M5 21v-7\"/>", "ban": "<path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\"/><path d=\"M5.7 5.7l12.6 12.6\"/>", "car": "<path d=\"M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5\"/>", "x": "<path d=\"M18 6l-12 12\"/><path d=\"M6 6l12 12\"/>"};
+const ic=n=>`<svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]||""}</svg>`;
 const $=id=>document.getElementById(id);
 const store={
   get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
@@ -211,7 +212,7 @@ function cancFor(dateIso){
 // ---------- status chips ----------
 const ageDays=iso=>(Date.now()-new Date(iso+"T12:00:00"))/864e5;
 const chip=(el,title,parts,stale,overdue=stale,pill=null)=>{el.innerHTML=`<span class="t">${title}${overdue?" · overdue":""}</span><span class="d">${parts.map(p=>`<span class="nw">${p}</span>`).join(" · ")}</span>`;el.classList.toggle("stale",!!stale);
-  const pe=document.getElementById(el.id+"P"); if(pe&&pill){pe.innerHTML=`<i class="ti ti-${pill.icon}" aria-hidden="true"></i>${pill.text}${overdue?" · overdue":""}`;pe.classList.toggle("stale",!!stale);pe.classList.toggle("alert",!!pill.alert)}};
+  const pe=document.getElementById(el.id+"P"); if(pe&&pill){pe.innerHTML=`${ic(pill.icon)}${pill.text}${overdue?" · overdue":""}`;pe.classList.toggle("stale",!!stale);pe.classList.toggle("alert",!!pill.alert)}};
 chip($("evChip"),"Events list",[eventsSource==="live"?"live from parkrun":`updated ${fmtDate(DATA.eventsUpdated)}`,`${todoCount} UK events left to do`],eventsSource!=="live"&&ageDays(DATA.eventsUpdated)>10,undefined,{icon:"list-check",text:`${todoCount} left${eventsSource==="live"?" · live":""}`});
 chip($("doneChip"),`Completed list · updated ${fmtDate(DATA.completedUpdated)}`,[`Latest: ${DATA.latest}`,`${DATA.totalRuns} runs`,`${DATA.distinct} events`],ageDays(DATA.completedUpdated)>10,undefined,{icon:"flag",text:`Done · ${new Date(DATA.completedUpdated+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`});
 
