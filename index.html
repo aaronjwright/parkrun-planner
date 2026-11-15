@@ -187,14 +187,14 @@ if(ageDays(DATA.completedUpdated)>10){$("doneChip").classList.add("stale");$("do
 
 // ---------- settings ----------
 const els={start:$("start"),date:$("date"),early:$("early"),inc:$("incDone"),car:$("car"),traffic:$("traffic"),tolls:$("avTolls"),high:$("avHigh"),ferry:$("avFerry"),key:$("key")};
-let routeType=store.get("ptp.route","fastest");
+let routeType=store.get("ptp.route","eco");
 function setRoute(v){routeType=v;[...$("routeSeg").children].forEach(b=>b.classList.toggle("on",b.dataset.v===v))}
 setRoute(routeType);
 $("routeSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(b){setRoute(b.dataset.v);store.set("ptp.route",routeType);run(lastLive)}});
 els.start.value=store.get("ptp.start",HOME.name);
 els.early.value=store.get("ptp.early",30);
 els.inc.checked=store.get("ptp.incDone",false);
-els.car.value=store.get("ptp.car","GASOLINE");
+els.car.value=store.get("ptp.car","ELECTRIC");
 els.traffic.value=store.get("ptp.traffic","BEST_GUESS");
 els.tolls.checked=store.get("ptp.tolls",false);
 els.high.checked=store.get("ptp.high",false);
@@ -365,6 +365,7 @@ $("go").onclick=()=>run(true);
 els.start.addEventListener("change",run);
 els.inc.addEventListener("change",run);
 els.key.addEventListener("change",()=>{saveSettings();liveChip()});
+[els.car,els.traffic,els.tolls,els.high,els.ferry,els.early,els.date].forEach(el=>el.addEventListener("change",saveSettings));
 document.addEventListener("click",ev=>{
   const d=ev.target.closest("[data-done]"),u=ev.target.closest("[data-undo]");
   if(d){
