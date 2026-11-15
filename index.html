@@ -85,7 +85,7 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
   <div class="hint" id="startHint">Type a postcode, a town, a parkrun name, or tap Use GPS.</div>
 
   <div class="row">
-    <div><label class="f" for="date">Saturday</label><input id="date" type="date"></div>
+    <div><label class="f" for="date">Date</label><select id="date"></select></div>
     <div><label class="f" for="early">Arrive early (min)</label><input id="early" type="number" min="0" max="120" step="5" value="30"></div>
   </div>
 
@@ -206,7 +206,24 @@ function saveSettings(){
   store.set("ptp.high",els.high.checked);store.set("ptp.ferry",els.ferry.checked);store.set("ptp.key",els.key.value.trim());
 }
 function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d.getHours()>=9)d.setDate(d.getDate()+7);else d.setDate(d.getDate()+add);return d}
-const ns=nextSat(); els.date.value=`${ns.getFullYear()}-${String(ns.getMonth()+1).padStart(2,"0")}-${String(ns.getDate()).padStart(2,"0")}`;
+// date list: the next 12 Saturdays plus Christmas Day and New Year's Day when they fall in that window
+(function(){
+  const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const label=d=>`${String(d.getDate()).padStart(2,"0")}-${MON[d.getMonth()]}-${d.getFullYear()}`;
+  const first=nextSat(), opts=[];
+  for(let i=0;i<12;i++){const d=new Date(first);d.setDate(first.getDate()+7*i);opts.push({d,extra:""})}
+  const last=opts[opts.length-1].d, today=new Date();today.setHours(0,0,0,0);
+  [[11,25,"Christmas Day"],[0,1,"New Year’s Day"]].forEach(([m,day,name])=>{
+    for(const y of [today.getFullYear(),today.getFullYear()+1]){
+      const d=new Date(y,m,day);
+      if(d>=today&&d<=last){const o=opts.find(o=>iso(o.d)===iso(d)); if(o)o.extra=name; else if(d.getDay()!==6)opts.push({d,extra:name})}
+    }
+  });
+  opts.sort((a,b)=>a.d-b.d);
+  els.date.innerHTML=opts.map(o=>`<option value="${iso(o.d)}">${label(o.d)}${o.extra?" ("+o.extra+")":""}</option>`).join("");
+  els.date.value=iso(first);
+})();
 function liveChip(){const on=!!els.key.value.trim();$("liveChip").innerHTML=on?`Live traffic <b>on</b> · Google routes`:`Live traffic <b>off</b> · add your Google key under More options`;$("liveChip").classList.toggle("stale",!on)}
 liveChip();
 $("places").innerHTML=[HOME.name,...all.map(e=>e.name).sort()].map(n=>`<option value="${n.replace(/"/g,"&quot;")}">`).join("");
@@ -364,6 +381,7 @@ async function run(useLive){
 $("go").onclick=()=>run(true);
 els.start.addEventListener("change",run);
 els.inc.addEventListener("change",run);
+els.date.addEventListener("change",()=>run(false));
 els.key.addEventListener("change",()=>{saveSettings();liveChip()});
 [els.car,els.traffic,els.tolls,els.high,els.ferry,els.early,els.date].forEach(el=>el.addEventListener("change",saveSettings));
 document.addEventListener("click",ev=>{
