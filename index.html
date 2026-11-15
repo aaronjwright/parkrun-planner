@@ -25,7 +25,10 @@ main{max-width:560px;margin:0 auto;padding:16px 14px 40px}
 h1{font-size:20px;margin:4px 0 10px;letter-spacing:-.01em;line-height:1.3;display:flex;align-items:center;gap:6px}
 h1 .ti{font-size:22px;line-height:1;color:var(--accent);width:22px;height:22px;flex:none}
 .status{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.status[hidden]{display:none}
+.status[hidden],.chip[hidden]{display:none}
+.status{margin-top:-6px}
+.pill{cursor:pointer}
+.pill.open{outline:1.5px solid var(--accent);outline-offset:1px}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;cursor:pointer}
 .pill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:5px 10px;border-radius:999px;background:var(--soft);white-space:nowrap}
 .pill .ti{font-size:15px;color:var(--accent)}
@@ -72,14 +75,16 @@ button,.btn{font:inherit;border:0;border-radius:10px;padding:10px 12px;cursor:po
 .summary{font-size:13px;color:var(--muted);margin:0 2px 8px}
 ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
-.top{display:flex;align-items:baseline;gap:10px}
-.rank{font-weight:700;color:var(--accent);min-width:22px}
-.name{font-weight:600;font-size:16px;flex:1}
+.card{display:flex;align-items:flex-start;gap:10px}
+.main{flex:1;min-width:0}
+.rank{font-weight:700;color:var(--accent);min-width:18px;line-height:1.35}
+.name{font-weight:600;font-size:16px;line-height:1.35;display:block}
 .name a{color:inherit;text-decoration:none}
 .leave{text-align:right;font-size:13px;color:var(--muted);white-space:nowrap}
 .leave b{display:block;font-size:20px;color:var(--ink);font-variant-numeric:tabular-nums}
-.meta{font-size:13px;color:var(--muted);margin:4px 0 10px 32px}
-.acts{display:flex;gap:8px;margin-left:32px}
+.meta{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5}
+.navbtn{flex:none;width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:inline-flex;align-items:center;justify-content:center;align-self:center}
+.navbtn .ti{font-size:22px}
 .acts .btn{flex:1;font-size:14px;padding:8px 10px}
 .nav{background:var(--accent);color:var(--accent-ink);font-weight:600}
 .ghost{background:transparent;border:1px solid var(--line)!important;color:var(--ink)}
@@ -96,17 +101,17 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 <main>
 <h1><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M4 17l5 1l.75 -1.5"/><path d="M15 21l0 -4l-4 -3l1 -6"/><path d="M7 12l0 -3l5 -1l3 3l3 1"/></svg><span class="ttl">Parkrun Travel Planner</span><button type="button" class="iconbtn" id="setBtn" aria-label="Settings" aria-expanded="false" aria-controls="settings"><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg></button></h1>
 
-<div class="pills" id="pills" role="button" tabindex="0" aria-expanded="false" aria-controls="statusDetail">
-  <span class="pill" id="evChipP"><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 5.5l1.5 1.5l2.5 -2.5"/><path d="M3.5 11.5l1.5 1.5l2.5 -2.5"/><path d="M3.5 17.5l1.5 1.5l2.5 -2.5"/><path d="M11 6l9 0"/><path d="M11 12l9 0"/><path d="M11 18l9 0"/></svg>Loading…</span>
-  <span class="pill" id="doneChipP"></span>
-  <span class="pill" id="cancChipP"></span>
-  <span class="pill" id="liveChipP"></span>
+<div class="pills" id="pills">
+  <span class="pill" id="evChipP" role="button" tabindex="0" aria-expanded="false" data-for="evChip"><svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 5.5l1.5 1.5l2.5 -2.5"/><path d="M3.5 11.5l1.5 1.5l2.5 -2.5"/><path d="M3.5 17.5l1.5 1.5l2.5 -2.5"/><path d="M11 6l9 0"/><path d="M11 12l9 0"/><path d="M11 18l9 0"/></svg>Loading…</span>
+  <span class="pill" id="doneChipP" role="button" tabindex="0" aria-expanded="false" data-for="doneChip"></span>
+  <span class="pill" id="cancChipP" role="button" tabindex="0" aria-expanded="false" data-for="cancChip"></span>
+  <span class="pill" id="liveChipP" role="button" tabindex="0" aria-expanded="false" data-for="liveChip"></span>
 </div>
-<div class="status" id="statusDetail" hidden>
-  <div class="chip" id="evChip"></div>
-  <div class="chip" id="doneChip"></div>
-  <div class="chip" id="cancChip"></div>
-  <div class="chip" id="liveChip"></div>
+<div class="status" id="statusDetail">
+  <div class="chip" id="evChip" hidden></div>
+  <div class="chip" id="doneChip" hidden></div>
+  <div class="chip" id="cancChip" hidden></div>
+  <div class="chip" id="liveChip" hidden></div>
 </div>
 
 <section class="panel" id="settings" hidden>
@@ -172,7 +177,7 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 
 <script>
 (async function(){
-const ICONS={"run": "<path d=\"M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\"/><path d=\"M4 17l5 1l.75 -1.5\"/><path d=\"M15 21l0 -4l-4 -3l1 -6\"/><path d=\"M7 12l0 -3l5 -1l3 3l3 1\"/>", "settings": "<path d=\"M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z\"/><path d=\"M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0\"/>", "list-check": "<path d=\"M3.5 5.5l1.5 1.5l2.5 -2.5\"/><path d=\"M3.5 11.5l1.5 1.5l2.5 -2.5\"/><path d=\"M3.5 17.5l1.5 1.5l2.5 -2.5\"/><path d=\"M11 6l9 0\"/><path d=\"M11 12l9 0\"/><path d=\"M11 18l9 0\"/>", "flag": "<path d=\"M5 5a5 5 0 0 1 7 0a5 5 0 0 0 7 0v9a5 5 0 0 1 -7 0a5 5 0 0 0 -7 0v-9z\"/><path d=\"M5 21v-7\"/>", "ban": "<path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\"/><path d=\"M5.7 5.7l12.6 12.6\"/>", "car": "<path d=\"M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5\"/>", "x": "<path d=\"M18 6l-12 12\"/><path d=\"M6 6l12 12\"/>"};
+const ICONS={"navigation":"<path d=\"M12 18.5l7.265 2.463c.196 .077 .42 .032 .57 -.116a.548 .548 0 0 0 .134 -.572l-7.969 -17.275l-7.97 17.275c-.07 .2 -.017 .424 .135 .572c.15 .148 .374 .193 .57 .116l7.265 -2.463\"/>","run": "<path d=\"M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\"/><path d=\"M4 17l5 1l.75 -1.5\"/><path d=\"M15 21l0 -4l-4 -3l1 -6\"/><path d=\"M7 12l0 -3l5 -1l3 3l3 1\"/>", "settings": "<path d=\"M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z\"/><path d=\"M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0\"/>", "list-check": "<path d=\"M3.5 5.5l1.5 1.5l2.5 -2.5\"/><path d=\"M3.5 11.5l1.5 1.5l2.5 -2.5\"/><path d=\"M3.5 17.5l1.5 1.5l2.5 -2.5\"/><path d=\"M11 6l9 0\"/><path d=\"M11 12l9 0\"/><path d=\"M11 18l9 0\"/>", "flag": "<path d=\"M5 5a5 5 0 0 1 7 0a5 5 0 0 0 7 0v9a5 5 0 0 1 -7 0a5 5 0 0 0 -7 0v-9z\"/><path d=\"M5 21v-7\"/>", "ban": "<path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\"/><path d=\"M5.7 5.7l12.6 12.6\"/>", "car": "<path d=\"M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5\"/>", "x": "<path d=\"M18 6l-12 12\"/><path d=\"M6 6l12 12\"/>"};
 const ic=n=>`<svg class="ti" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]||""}</svg>`;
 const $=id=>document.getElementById(id);
 const store={
@@ -394,7 +399,7 @@ async function run(useLive){
     saveSettings(); liveChip();
     const s=await resolveStart(els.start.value);
     if(!s){if(els.start.value.trim()!==LOC)$("startHint").innerHTML=`<span class="err">Couldn’t find that start point.</span> Try a postcode, a town, a parkrun name or tap the location button.`;return}
-    $("startHint").textContent=s.name===LOC?`Starting from your current location${s.acc?` (to within about ${s.acc<1000?s.acc+" m":(s.acc/1000).toFixed(1)+" km"})`:""}.`:`Starting from ${s.name}.`;
+    $("startHint").innerHTML=s.name===LOC?`Starting from your current location${s.acc?` <span class="nw">(within ${s.acc<1000?s.acc+"\u00a0m":(s.acc/1000).toFixed(1)+"\u00a0km"})</span>`:""}.`:`Starting from ${s.name}.`;
     const early=+els.early.value||0;
     cancChip();
     const cmap=cancFor(els.date.value), skipped=[];
@@ -430,26 +435,26 @@ async function run(useLive){
       if(r.picked) extra.push(r.picked);
       if(r.live&&r.fuelL&&els.car.value!=="ELECTRIC") extra.push(`≈ ${r.fuelL.toFixed(1)} L fuel`);
       return `<li class="card">
-        <div class="top"><span class="rank">${i+1}</span>
-         <span class="name"><a href="https://www.parkrun.org.uk/${r.slug}/" target="_blank" rel="noopener">${r.name}</a></span>
-         <span class="leave">Leave by<b>${hm(Math.floor(r.leave/5)*5)}</b></span></div>
-        <div class="meta">${tag} ${r.live?"":"≈ "}${dur(r.min)} · ${Math.round(r.km*0.621)} mi · starts ${hm(r.startMin)}${extra.length?" · "+extra.join(" · "):""}</div>
-        <div class="acts">
-         <a class="btn nav" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener">Navigate</a>
-         ${r.isDone?"":`<button class="btn ghost" data-done="${r.slug}" type="button">Mark as done</button>`}
-        </div></li>`}).join("");
+        <span class="rank">${i+1}</span>
+        <div class="main">
+          <span class="name"><a href="https://www.parkrun.org.uk/${r.slug}/" target="_blank" rel="noopener">${r.name}</a></span>
+          <div class="meta">${tag} ${r.live?"":"≈ "}${dur(r.min)} · ${Math.round(r.km*0.621)} mi · starts ${hm(r.startMin)}${extra.length?" · "+extra.join(" · "):""}</div>
+        </div>
+        <span class="leave">Leave by<b>${hm(Math.floor(r.leave))}</b></span>
+        <a class="navbtn" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener" aria-label="Navigate to ${r.name} in Google Maps" title="Navigate in Google Maps">${ic("navigation")}</a>
+      </li>`}).join("");
     const used=store.get("ptp.usage."+todayIso().slice(0,7),0);
     $("foot").innerHTML=`${isLive?`Live times from Google for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Google requests this month on this phone: ${used}. Live refreshes today: ${store.get("ptp.refresh."+todayIso(),0)} of 10.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
-      Navigate opens Google Maps, which picks its own route. Start times assume 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland; check the event page for any local change.`;
+      The arrow button opens Google Maps, which picks its own route. Start times assume 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland; check the event page for any local change.`;
   }finally{busy=false}
 }
 $("go").onclick=()=>run(true);
 const toggleSettings=open=>{const p=$("settings");if(open===undefined)open=p.hidden;p.hidden=!open;$("setBtn").classList.toggle("on",open);$("setBtn").setAttribute("aria-expanded",String(open))};
 $("setBtn").addEventListener("click",()=>toggleSettings());
 $("setClose").addEventListener("click",()=>toggleSettings(false));
-const togglePills=()=>{const d=$("statusDetail"),open=d.hidden;d.hidden=!open;$("pills").setAttribute("aria-expanded",String(open))};
-$("pills").addEventListener("click",togglePills);
-$("pills").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();togglePills()}});
+const showChip=id=>{["evChip","doneChip","cancChip","liveChip"].forEach(c=>{const on=c===id&&$(c).hidden;$(c).hidden=!on;$(c+"P").classList.toggle("open",on);$(c+"P").setAttribute("aria-expanded",String(on))})};
+$("pills").addEventListener("click",e=>{const p=e.target.closest("[data-for]");if(p)showChip(p.dataset.for)});
+$("pills").addEventListener("keydown",e=>{const p=e.target.closest("[data-for]");if(p&&(e.key==="Enter"||e.key===" ")){e.preventDefault();showChip(p.dataset.for)}});
 els.start.addEventListener("change",run);
 els.inc.addEventListener("change",run);
 els.early.addEventListener("change",()=>run(lastLive));
