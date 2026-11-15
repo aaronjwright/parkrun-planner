@@ -171,13 +171,6 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
 
 <p class="summary" id="summary"></p>
 <ol id="list"></ol>
-
-<section class="panel" id="donePanel" style="display:none;margin-top:14px">
-  <label class="f">Marked as done on this phone</label>
-  <div class="done-list" id="doneList"></div>
-  <div class="hint">Hidden until the next weekly refresh checks your parkrun profile. Anything marked by mistake comes back then, or tap Undo now.</div>
-</section>
-
 <footer id="foot"></footer>
 </main>
 
@@ -286,7 +279,7 @@ function cancChip(){
   if(CANC&&CANC.date===els.date.value){
     const t=new Date(CANC.checked).toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
     const n=(CANC.events||[]).length, ts=new Date(CANC.checked).toLocaleString("en-GB",{weekday:"short",hour:"2-digit",minute:"2-digit"});
-    chip($("cancChip"),"Cancellations",[`checked ${t}`,`${n} UK events off`,link],false,false,{icon:"ban",text:`${n} off · ${ts}`,alert:n>0});
+    chip($("cancChip"),"Cancellations",[`checked ${t}`,`${n} UK events off`,link],false,false,{icon:"ban",text:`${n} cancelled · ${ts}`,alert:n>0});
   }else chip($("cancChip"),"Cancellations",["not checked for this date yet",link],false,false,{icon:"ban",text:"Not checked"});
 }
 cancChip();
@@ -388,14 +381,7 @@ async function routeFor(s,c,early){
 }
 
 // ---------- done on this phone ----------
-let manualDone=store.get("ptp.done",{});
-const refreshedAt=new Date(DATA.completedUpdated+"T23:59:59").getTime();
-Object.keys(manualDone).forEach(k=>{const e=all.find(x=>x.slug===k);if(!e||e.done||(manualDone[k].ts||0)<refreshedAt)delete manualDone[k]});
-store.set("ptp.done",manualDone);
-function renderDone(){
-  const keys=Object.keys(manualDone);$("donePanel").style.display=keys.length?"block":"none";
-  $("doneList").innerHTML=keys.map(k=>`<div>${manualDone[k].name} · ${manualDone[k].date}<button data-undo="${k}">Undo</button></div>`).join("");
-}
+try{localStorage.removeItem("ptp.done")}catch(e){}
 
 // ---------- main ----------
 let busy=false, lastLive=false;
@@ -404,13 +390,13 @@ async function run(useLive){
   try{
     saveSettings(); liveChip();
     const s=await resolveStart(els.start.value);
-    if(!s){if(els.start.value.trim()!==LOC)$("startHint").innerHTML=`<span class="err">Couldn’t find that start point.</span> Try a postcode, a town, a parkrun name or tap the location button.`;return}
+    if(!s){$("list").innerHTML="";$("summary").textContent="";if(els.start.value.trim()!==LOC)$("startHint").innerHTML=`<span class="err">Couldn’t find that start point.</span> Try a postcode, a town, a parkrun name or tap the location button.`;return}
     $("startHint").innerHTML=s.name===LOC?`Starting from your current location${s.acc?` <span class="nw">(within ${s.acc<1000?s.acc+"\u00a0m":(s.acc/1000).toFixed(1)+"\u00a0km"})</span>`:""}.`:(s.name===els.start.value.trim()||s.name===els.start.value.trim()+" parkrun"||s.name===HOME.name?"":`Starting from ${s.name}.`);
     const early=+els.early.value||0;
     cancChip();
     const cmap=cancFor(els.date.value), skipped=[];
-    let cands=all.filter(e=>els.inc.checked||!(e.done||manualDone[e.slug]))
-      .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done||!!manualDone[e.slug],km:est.roadKm,min:est.min,live:false}})
+    let cands=all.filter(e=>els.inc.checked||!e.done)
+      .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done,km:est.roadKm,min:est.min,live:false}})
       .sort((a,b)=>a.min-b.min);
     cands=cands.filter((c,i)=>{const r=cmap[norm(c.name)];if(r){if(i<12)skipped.push(`${c.name} (${r.toLowerCase()})`);return false}return true});
     let note="";
@@ -429,7 +415,7 @@ async function run(useLive){
     }else cands=cands.slice(0,10);
     cands.forEach(c=>c.leave=c.startMin-early-c.min);
     lastLive=cands.some(c=>c.live);
-    const day=new Date(els.date.value+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+    const dd=new Date(els.date.value+"T12:00:00"), day=`${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][dd.getDay()]} ${String(dd.getDate()).padStart(2,"0")}-${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][dd.getMonth()]}-${dd.getFullYear()}`;
     const rLabel={fastest:"fastest route",shortest:"shortest route",eco:"most economical route"}[routeType];
     const isLive=cands.some(c=>c.live);
     $("summary").textContent=`${day} · arrive ${early} min early · ${isLive?rLabel+", live traffic":"estimated times"+(els.key.value.trim()?" (tap Refresh for live)":"")} · updated ${new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}${note?" · "+note:""}${skipped.length?" · Left out as cancelled: "+skipped.join(", "):""}`;
@@ -465,18 +451,8 @@ els.early.addEventListener("change",()=>run(lastLive));
 els.date.addEventListener("change",()=>run(false));
 els.key.addEventListener("change",()=>{saveSettings();liveChip()});
 [els.car,els.traffic,els.tolls,els.high,els.ferry,els.early,els.date].forEach(el=>el.addEventListener("change",saveSettings));
-document.addEventListener("click",ev=>{
-  const d=ev.target.closest("[data-done]"),u=ev.target.closest("[data-undo]");
-  if(d){
-    if(!d.classList.contains("confirm")){d.classList.add("confirm");d.textContent="Tap again to confirm";
-      setTimeout(()=>{if(d.isConnected){d.classList.remove("confirm");d.textContent="Mark as done"}},3000);return}
-    const e=all.find(x=>x.slug===d.dataset.done);
-    manualDone[e.slug]={name:e.name,ts:Date.now(),date:new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short"})};
-    store.set("ptp.done",manualDone);renderDone();run();
-  }
-  if(u){delete manualDone[u.dataset.undo];store.set("ptp.done",manualDone);renderDone();run()}
-});
-renderDone(); run();
+
+run();
 })();
 </script>
 </body>
