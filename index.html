@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Parkrun Travel Planner</title>
+<style>
+:root{
+  --bg:#f6f5f2;--card:#ffffff;--ink:#1d1f21;--muted:#6b6f73;--line:#e3e1dc;
+  --accent:#1f6f5c;--accent-ink:#ffffff;--soft:#e8f2ee;--amber:#b26a00;--amber-soft:#fdf1dc;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#141516;--card:#1e2022;--ink:#ecebe8;--muted:#9a9ea2;--line:#2e3134;
+  --accent:#4fb393;--accent-ink:#0f1a16;--soft:#1c2b26;--amber:#f0b252;--amber-soft:#2e2414;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:560px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:20px;margin:4px 0 10px;letter-spacing:-.01em}
+.status{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.chip{font-size:13px;padding:7px 10px;border-radius:10px;background:var(--soft)}
+.chip b{font-weight:600}
+.chip.stale{background:var(--amber-soft);color:var(--amber)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px}
+label.f{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+label.f:first-child{margin-top:0}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.startrow{display:flex;gap:8px}
+.startrow input{flex:1}
+.hint{font-size:12px;color:var(--muted);margin-top:6px}
+.err{color:var(--amber)}
+.check{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px}
+.check input{width:auto}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{flex:1;background:var(--bg);color:var(--ink);border-radius:0;padding:9px 4px;font-size:14px}
+.seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+button,.btn{font:inherit;border:0;border-radius:10px;padding:10px 12px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.primary{background:var(--accent);color:var(--accent-ink);font-weight:600;width:100%;margin-top:12px}
+.small{background:var(--soft);color:var(--accent);font-size:14px;white-space:nowrap}
+details.opts{margin-top:10px}
+details.opts summary{cursor:pointer;font-size:14px;color:var(--accent);font-weight:600}
+.summary{font-size:13px;color:var(--muted);margin:0 2px 8px}
+ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.top{display:flex;align-items:baseline;gap:10px}
+.rank{font-weight:700;color:var(--accent);min-width:22px}
+.name{font-weight:600;font-size:16px;flex:1}
+.name a{color:inherit;text-decoration:none}
+.leave{text-align:right;font-size:13px;color:var(--muted);white-space:nowrap}
+.leave b{display:block;font-size:20px;color:var(--ink);font-variant-numeric:tabular-nums}
+.meta{font-size:13px;color:var(--muted);margin:4px 0 10px 32px}
+.acts{display:flex;gap:8px;margin-left:32px}
+.acts .btn{flex:1;font-size:14px;padding:8px 10px}
+.nav{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.ghost{background:transparent;border:1px solid var(--line)!important;color:var(--ink)}
+.ghost.confirm{border-color:var(--amber)!important;color:var(--amber);background:var(--amber-soft)}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--ink);margin-right:2px}
+.tag.new{background:var(--soft);color:var(--accent)}
+.tag.live{background:var(--accent);color:var(--accent-ink)}
+.done-list{font-size:13px;color:var(--muted)}
+.done-list button{background:none;color:var(--accent);padding:0 0 0 6px;font-size:13px}
+footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
+</style>
+</head>
+<body>
+<main>
+<h1>Parkrun Travel Planner</h1>
+
+<div class="status">
+  <div class="chip" id="evChip">Loading events…</div>
+  <div class="chip" id="doneChip"></div>
+  <div class="chip" id="liveChip"></div>
+</div>
+
+<section class="panel">
+  <label class="f" for="start">Start from</label>
+  <div class="startrow">
+    <input id="start" list="places" autocomplete="off" placeholder="Postcode, town, parkrun or coordinates">
+    <button class="small" id="gps" type="button">Use GPS</button>
+  </div>
+  <datalist id="places"></datalist>
+  <div class="hint" id="startHint">Type a postcode, a town, a parkrun name, or tap Use GPS.</div>
+
+  <div class="row">
+    <div><label class="f" for="date">Saturday</label><input id="date" type="date"></div>
+    <div><label class="f" for="early">Arrive early (min)</label><input id="early" type="number" min="0" max="120" step="5" value="30"></div>
+  </div>
+
+  <label class="f">Route</label>
+  <div class="seg" id="routeSeg">
+    <button data-v="fastest" class="on" type="button">Fastest</button>
+    <button data-v="shortest" type="button">Shortest</button>
+    <button data-v="eco" type="button">Economical</button>
+  </div>
+
+  <label class="check"><input type="checkbox" id="incDone"> Include events I’ve done</label>
+
+  <details class="opts">
+    <summary>More options</summary>
+    <label class="f" for="car">Car</label>
+    <select id="car">
+      <option value="GASOLINE">Petrol</option>
+      <option value="DIESEL">Diesel</option>
+      <option value="HYBRID">Hybrid</option>
+      <option value="ELECTRIC">Electric</option>
+    </select>
+    <label class="f" for="traffic">Traffic assumption</label>
+    <select id="traffic">
+      <option value="BEST_GUESS">Best guess (uses live traffic)</option>
+      <option value="PESSIMISTIC">Cautious (a bad traffic day)</option>
+      <option value="OPTIMISTIC">Optimistic (a good traffic day)</option>
+    </select>
+    <label class="check"><input type="checkbox" id="avTolls"> Avoid tolls</label>
+    <label class="check"><input type="checkbox" id="avHigh"> Avoid motorways</label>
+    <label class="check"><input type="checkbox" id="avFerry"> Avoid ferries</label>
+    <label class="f" for="key">Google Maps key</label>
+    <input id="key" type="password" autocomplete="off" placeholder="Paste your key once; it stays on this phone">
+    <div class="hint">Without a key the planner uses distance-based estimates.</div>
+  </details>
+
+  <button class="primary" id="go" type="button">Refresh my top 10</button>
+</section>
+
+<p class="summary" id="summary"></p>
+<ol id="list"></ol>
+
+<section class="panel" id="donePanel" style="display:none;margin-top:14px">
+  <label class="f">Marked as done on this phone</label>
+  <div class="done-list" id="doneList"></div>
+  <div class="hint">Hidden until the next weekly refresh checks your parkrun profile. Anything marked by mistake comes back then, or tap Undo now.</div>
+</section>
+
+<footer id="foot"></footer>
+</main>
+
+<script>
+(async function(){
+const $=id=>document.getElementById(id);
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+const HOME={name:"Hethersett (home)",lat:52.6005,lon:1.1745};
+const CANDIDATES=25;   // nearest by straight line sent to Google for live times
+const fmtDate=iso=>new Date(iso+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+const todayIso=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+
+// ---------- data ----------
+let DATA;
+try{DATA=await (await fetch("data.json",{cache:"no-store"})).json()}catch(e){$("evChip").textContent="Couldn’t load data.json";return}
+const doneInfo={};
+DATA.done.forEach(l=>{const [slug,c,last]=l.split("|");doneInfo[slug]={count:+c,last}});
+
+let rawEvents=null, eventsSource="snapshot";
+try{
+  const r=await fetch("https://images.parkrun.com/events.json",{cache:"no-store"});
+  const j=await r.json();
+  rawEvents=j.events.features.filter(f=>f.properties.countrycode===97&&f.properties.seriesid===1)
+    .map(f=>({slug:f.properties.eventname,name:f.properties.EventShortName,lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0]}));
+  eventsSource="live";
+}catch(e){}
+if(!rawEvents){
+  rawEvents=DATA.snapshot.split("\n").filter(Boolean).map(l=>{const [slug,name,lat,lon]=l.split("|");return {slug,name,lat:+lat,lon:+lon}});
+}
+
+function isNI(e){return e.lon<-5.4&&e.lat>54&&e.lat<55.35}
+function isScotland(lat,lon){
+  if(lon<-3.1) return lat>54.9||(lon<-4.3&&lat>54.6);
+  if(lon<=-2.0){const p=[[-3.1,54.98],[-2.6,55.15],[-2.2,55.35],[-2.0,55.80]];
+    for(let i=0;i<p.length-1;i++){const [x1,y1]=p[i],[x2,y2]=p[i+1];if(lon>=x1&&lon<=x2)return lat>y1+(lon-x1)/(x2-x1)*(y2-y1)}}
+  return lat>55.8;
+}
+const all=rawEvents.map(e=>({...e,done:!!doneInfo[e.slug],count:doneInfo[e.slug]?.count||0,startMin:(isScotland(e.lat,e.lon)||isNI(e))?570:540}));
+const todoCount=all.filter(e=>!e.done).length;
+
+// ---------- status chips ----------
+const ageDays=iso=>(Date.now()-new Date(iso+"T12:00:00"))/864e5;
+$("evChip").innerHTML = eventsSource==="live"
+  ? `Events list <b>live from parkrun</b> · ${todoCount} UK events left to do`
+  : `Events list updated <b>${fmtDate(DATA.eventsUpdated)}</b> · ${todoCount} UK events left to do`;
+if(eventsSource!=="live"&&ageDays(DATA.eventsUpdated)>10){$("evChip").classList.add("stale");$("evChip").innerHTML+=" · <b>overdue</b>"}
+$("doneChip").innerHTML=`Completed list updated <b>${fmtDate(DATA.completedUpdated)}</b> · latest ${DATA.latest} · ${DATA.totalRuns} runs, ${DATA.distinct} events`;
+if(ageDays(DATA.completedUpdated)>10){$("doneChip").classList.add("stale");$("doneChip").innerHTML+=" · <b>overdue</b>"}
+
+// ---------- settings ----------
+const els={start:$("start"),date:$("date"),early:$("early"),inc:$("incDone"),car:$("car"),traffic:$("traffic"),tolls:$("avTolls"),high:$("avHigh"),ferry:$("avFerry"),key:$("key")};
+let routeType=store.get("ptp.route","fastest");
+function setRoute(v){routeType=v;[...$("routeSeg").children].forEach(b=>b.classList.toggle("on",b.dataset.v===v))}
+setRoute(routeType);
+$("routeSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(b){setRoute(b.dataset.v);store.set("ptp.route",routeType);run(lastLive)}});
+els.start.value=store.get("ptp.start",HOME.name);
+els.early.value=store.get("ptp.early",30);
+els.inc.checked=store.get("ptp.incDone",false);
+els.car.value=store.get("ptp.car","GASOLINE");
+els.traffic.value=store.get("ptp.traffic","BEST_GUESS");
+els.tolls.checked=store.get("ptp.tolls",false);
+els.high.checked=store.get("ptp.high",false);
+els.ferry.checked=store.get("ptp.ferry",false);
+els.key.value=store.get("ptp.key","");
+function saveSettings(){
+  store.set("ptp.start",els.start.value);store.set("ptp.early",+els.early.value||0);store.set("ptp.incDone",els.inc.checked);
+  store.set("ptp.car",els.car.value);store.set("ptp.traffic",els.traffic.value);store.set("ptp.tolls",els.tolls.checked);
+  store.set("ptp.high",els.high.checked);store.set("ptp.ferry",els.ferry.checked);store.set("ptp.key",els.key.value.trim());
+}
+function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d.getHours()>=9)d.setDate(d.getDate()+7);else d.setDate(d.getDate()+add);return d}
+const ns=nextSat(); els.date.value=`${ns.getFullYear()}-${String(ns.getMonth()+1).padStart(2,"0")}-${String(ns.getDate()).padStart(2,"0")}`;
+function liveChip(){const on=!!els.key.value.trim();$("liveChip").innerHTML=on?`Live traffic <b>on</b> · Google routes`:`Live traffic <b>off</b> · add your Google key under More options`;$("liveChip").classList.toggle("stale",!on)}
+liveChip();
+$("places").innerHTML=[HOME.name,...all.map(e=>e.name).sort()].map(n=>`<option value="${n.replace(/"/g,"&quot;")}">`).join("");
+
+// ---------- start location ----------
+let gpsPoint=null;
+$("gps").onclick=()=>{
+  if(!navigator.geolocation){$("startHint").innerHTML=`<span class="err">This browser can’t share your location.</span>`;return}
+  $("startHint").textContent="Finding your location…";
+  navigator.geolocation.getCurrentPosition(p=>{gpsPoint={name:"Current location",lat:p.coords.latitude,lon:p.coords.longitude};els.start.value="Current location";run()},
+    ()=>{$("startHint").innerHTML=`<span class="err">Location not available. Check Chrome’s location permission.</span>`},{enableHighAccuracy:false,timeout:10000});
+};
+async function resolveStart(txt){
+  txt=(txt||"").trim(); if(!txt) return null;
+  if(txt==="Current location"&&gpsPoint) return gpsPoint;
+  if(txt===HOME.name||/^home$|^hethersett$/i.test(txt)) return HOME;
+  const ev=all.find(e=>e.name.toLowerCase()===txt.toLowerCase());
+  if(ev) return {name:ev.name+" parkrun",lat:ev.lat,lon:ev.lon};
+  let m=txt.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)||txt.match(/[?&](?:q|ll|query|destination|origin)=(-?\d+\.\d+)(?:,|%2C)\s*(-?\d+\.\d+)/i)||txt.match(/^(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)$/);
+  if(m) return {name:`${(+m[1]).toFixed(4)}, ${(+m[2]).toFixed(4)}`,lat:+m[1],lon:+m[2]};
+  const cache=store.get("ptp.geo",{}); if(cache[txt.toLowerCase()]) return cache[txt.toLowerCase()];
+  try{
+    let p=null;
+    if(/^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(txt)){
+      const r=await (await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(txt)}`)).json();
+      if(r.result) p={name:r.result.postcode,lat:r.result.latitude,lon:r.result.longitude};
+    }else{
+      const r=await (await fetch(`https://api.postcodes.io/places?q=${encodeURIComponent(txt)}&limit=5`)).json();
+      const hit=(r.result||[]).find(x=>/City|Town|Village|Hamlet|Suburban/i.test(x.local_type))||(r.result||[])[0];
+      if(hit) p={name:`${hit.name_1}${hit.county_unitary?", "+hit.county_unitary:""}`,lat:hit.latitude,lon:hit.longitude};
+    }
+    if(p){cache[txt.toLowerCase()]=p;store.set("ptp.geo",cache);return p}
+  }catch(e){}
+  return undefined;
+}
+
+// ---------- maths ----------
+function hav(a,b,c,d){const R=6371,t=x=>x*Math.PI/180,dl=t(c-a),dn=t(d-b);const h=Math.sin(dl/2)**2+Math.cos(t(a))*Math.cos(t(c))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+function estMin(km){const road=km*1.25;const v=road<15?40:road<40?55:road<100?68:80;return {roadKm:road,min:Math.round(4+road/v*60)}}
+const hm=m=>{m=((Math.floor(m)%1440)+1440)%1440;return `${Math.floor(m/60)}:${String(m%60).padStart(2,"0")}`};
+const dur=m=>{m=Math.round(m);return m<60?`${m} min`:`${Math.floor(m/60)}h ${String(m%60).padStart(2,"0")}`};
+const secs=s=>parseInt(String(s).replace("s",""),10)/60;
+function departIso(dateIso,minOfDay){
+  const [y,mo,d]=dateIso.split("-").map(Number);
+  const t=new Date(y,mo-1,d,0,0,0); t.setMinutes(minOfDay);
+  const floor=Date.now()+2*60000; return new Date(Math.max(t.getTime(),floor)).toISOString();
+}
+
+// ---------- Google Routes ----------
+async function gpost(url,body,mask){
+  const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","X-Goog-Api-Key":els.key.value.trim(),"X-Goog-FieldMask":mask},body:JSON.stringify(body)});
+  const j=await r.json(); if(!r.ok) throw new Error((j.error&&j.error.message)||("Google error "+r.status)); return j;
+}
+const ll=(lat,lon)=>({location:{latLng:{latitude:lat,longitude:lon}}});
+function modifiers(withVehicle){
+  const m={avoidTolls:els.tolls.checked,avoidHighways:els.high.checked,avoidFerries:els.ferry.checked};
+  if(withVehicle) m.vehicleInfo={emissionType:els.car.value};
+  return m;
+}
+function countUsage(n){const k="ptp.usage."+todayIso().slice(0,7);store.set(k,store.get(k,0)+n);return store.get(k,0)}
+
+async function liveTimes(s,cands,early){
+  // one matrix call for the shortlist, departing roughly when you'd need to leave
+  const guessDepart=Math.min(...cands.map(c=>c.startMin-early-c.min));
+  const body={origins:[{waypoint:ll(s.lat,s.lon),routeModifiers:modifiers(false)}],
+    destinations:cands.map(c=>({waypoint:ll(c.lat,c.lon)})),
+    travelMode:"DRIVE",routingPreference:"TRAFFIC_AWARE_OPTIMAL",trafficModel:els.traffic.value,
+    departureTime:departIso(els.date.value,guessDepart)};
+  const rows=await gpost("https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix",body,"originIndex,destinationIndex,duration,distanceMeters,condition");
+  countUsage(cands.length);
+  rows.forEach(r=>{if(r.condition==="ROUTE_EXISTS"&&r.duration){const c=cands[r.destinationIndex];c.min=secs(r.duration);c.km=r.distanceMeters/1000;c.live=true}});
+  return cands.filter(c=>c.live);
+}
+async function routeFor(s,c,early){
+  const ref=routeType==="shortest"?["SHORTER_DISTANCE"]:routeType==="eco"?["FUEL_EFFICIENT"]:[];
+  const body={origin:ll(s.lat,s.lon),destination:ll(c.lat,c.lon),travelMode:"DRIVE",routingPreference:"TRAFFIC_AWARE_OPTIMAL",
+    trafficModel:els.traffic.value,departureTime:departIso(els.date.value,c.startMin-early-c.min),
+    routeModifiers:modifiers(true),extraComputations:["FUEL_CONSUMPTION"]};
+  if(ref.length) body.requestedReferenceRoutes=ref;
+  const j=await gpost("https://routes.googleapis.com/directions/v2:computeRoutes",body,"routes.duration,routes.distanceMeters,routes.routeLabels,routes.travelAdvisory.fuelConsumptionMicroliters");
+  countUsage(1);
+  const routes=j.routes||[]; if(!routes.length) return;
+  const want=routeType==="shortest"?"SHORTER_DISTANCE":routeType==="eco"?"FUEL_EFFICIENT":"DEFAULT_ROUTE";
+  const fast=routes.find(r=>(r.routeLabels||[]).includes("DEFAULT_ROUTE"))||routes[0];
+  const pick=routes.find(r=>(r.routeLabels||[]).includes(want))||fast;
+  c.min=secs(pick.duration); c.km=pick.distanceMeters/1000; c.fastMin=secs(fast.duration);
+  const fuel=pick.travelAdvisory&&pick.travelAdvisory.fuelConsumptionMicroliters;
+  c.fuelL=fuel?(+fuel)/1e6:null; c.picked=(pick===fast&&want!=="DEFAULT_ROUTE")?"same as fastest":null;
+}
+
+// ---------- done on this phone ----------
+let manualDone=store.get("ptp.done",{});
+const refreshedAt=new Date(DATA.completedUpdated+"T23:59:59").getTime();
+Object.keys(manualDone).forEach(k=>{const e=all.find(x=>x.slug===k);if(!e||e.done||(manualDone[k].ts||0)<refreshedAt)delete manualDone[k]});
+store.set("ptp.done",manualDone);
+function renderDone(){
+  const keys=Object.keys(manualDone);$("donePanel").style.display=keys.length?"block":"none";
+  $("doneList").innerHTML=keys.map(k=>`<div>${manualDone[k].name} · ${manualDone[k].date}<button data-undo="${k}">Undo</button></div>`).join("");
+}
+
+// ---------- main ----------
+let busy=false, lastLive=false;
+async function run(useLive){
+  if(busy) return; busy=true;
+  try{
+    saveSettings(); liveChip();
+    const s=await resolveStart(els.start.value);
+    if(!s){$("startHint").innerHTML=`<span class="err">Couldn’t find that start point.</span> Try a postcode, a town, a parkrun name or Use GPS.`;return}
+    $("startHint").textContent=`Starting from ${s.name}.`;
+    const early=+els.early.value||0;
+    let cands=all.filter(e=>els.inc.checked||!(e.done||manualDone[e.slug]))
+      .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done||!!manualDone[e.slug],km:est.roadKm,min:est.min,live:false}})
+      .sort((a,b)=>a.min-b.min);
+    let note="";
+    if(useLive===true&&els.key.value.trim()){
+      $("summary").textContent="Getting live drive times from Google…";
+      try{
+        const shortlist=cands.slice(0,CANDIDATES);
+        const live=await liveTimes(s,shortlist,early);
+        live.sort((a,b)=>a.min-b.min);
+        cands=live.slice(0,10);
+        await Promise.all(cands.map(c=>routeFor(s,c,early).catch(()=>{})));
+      }catch(err){note=`Google didn’t respond (${err.message}). Showing estimates instead.`;cands=cands.slice(0,10)}
+    }else cands=cands.slice(0,10);
+    cands.forEach(c=>c.leave=c.startMin-early-c.min);
+    lastLive=cands.some(c=>c.live);
+    const day=new Date(els.date.value+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+    const rLabel={fastest:"fastest route",shortest:"shortest route",eco:"most economical route"}[routeType];
+    const isLive=cands.some(c=>c.live);
+    $("summary").textContent=`${day} · arrive ${early} min early · ${isLive?rLabel+", live traffic":"estimated times"+(els.key.value.trim()?" (tap Refresh for live)":"")} · updated ${new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}${note?" · "+note:""}`;
+    const org=`${s.lat},${s.lon}`;
+    $("list").innerHTML=cands.map((r,i)=>{
+      const tag=r.isDone?`<span class="tag">done${r.count?" ×"+r.count:""}</span>`:`<span class="tag new">new</span>`;
+      const extra=[];
+      if(r.live&&routeType!=="fastest"&&r.fastMin&&Math.abs(r.fastMin-r.min)>=1) extra.push(`fastest ${dur(r.fastMin)}`);
+      if(r.picked) extra.push(r.picked);
+      if(r.live&&r.fuelL&&els.car.value!=="ELECTRIC") extra.push(`≈ ${r.fuelL.toFixed(1)} L fuel`);
+      return `<li class="card">
+        <div class="top"><span class="rank">${i+1}</span>
+         <span class="name"><a href="https://www.parkrun.org.uk/${r.slug}/" target="_blank" rel="noopener">${r.name}</a></span>
+         <span class="leave">Leave by<b>${hm(Math.floor(r.leave/5)*5)}</b></span></div>
+        <div class="meta">${tag} ${r.live?"":"≈ "}${dur(r.min)} · ${Math.round(r.km*0.621)} mi · starts ${hm(r.startMin)}${extra.length?" · "+extra.join(" · "):""}</div>
+        <div class="acts">
+         <a class="btn nav" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener">Navigate</a>
+         ${r.isDone?"":`<button class="btn ghost" data-done="${r.slug}" type="button">Mark as done</button>`}
+        </div></li>`}).join("");
+    const used=store.get("ptp.usage."+todayIso().slice(0,7),0);
+    $("foot").innerHTML=`${isLive?`Live times from Google for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Google requests this month on this phone: ${used}.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
+      Navigate opens Google Maps, which picks its own route. Start times assume 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland; check the event page for any local change.`;
+  }finally{busy=false}
+}
+$("go").onclick=()=>run(true);
+els.start.addEventListener("change",run);
+els.inc.addEventListener("change",run);
+els.key.addEventListener("change",()=>{saveSettings();liveChip()});
+document.addEventListener("click",ev=>{
+  const d=ev.target.closest("[data-done]"),u=ev.target.closest("[data-undo]");
+  if(d){
+    if(!d.classList.contains("confirm")){d.classList.add("confirm");d.textContent="Tap again to confirm";
+      setTimeout(()=>{if(d.isConnected){d.classList.remove("confirm");d.textContent="Mark as done"}},3000);return}
+    const e=all.find(x=>x.slug===d.dataset.done);
+    manualDone[e.slug]={name:e.name,ts:Date.now(),date:new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short"})};
+    store.set("ptp.done",manualDone);renderDone();run();
+  }
+  if(u){delete manualDone[u.dataset.undo];store.set("ptp.done",manualDone);renderDone();run()}
+});
+renderDone(); run();
+})();
+</script>
+</body>
+</html>
