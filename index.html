@@ -97,6 +97,10 @@ ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px
 .nav{background:var(--accent);color:var(--accent-ink);font-weight:600}
 .ghost{background:transparent;border:1px solid var(--line)!important;color:var(--ink)}
 .ghost.confirm{border-color:var(--amber)!important;color:var(--amber);background:var(--amber-soft)}
+.spare{display:block;font-size:12px;color:var(--accent);margin-top:1px}
+.card.tight .spare,.card.late .spare{color:var(--amber)}
+.card.late{opacity:.55}
+.divider{list-style:none;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:6px 2px 0}
 .tag{display:inline-block;font-size:12px;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--ink);margin-right:2px}
 .tag.new{background:var(--soft);color:var(--accent)}
 .tag.live{background:var(--accent);color:var(--accent-ink)}
@@ -414,13 +418,20 @@ async function run(useLive){
       }catch(err){note=`Google didn’t respond (${err.message}), so these are estimates.`;cands=cands.slice(0,10)}
     }else cands=cands.slice(0,10);
     cands.forEach(c=>c.leave=c.startMin-early-c.min);
+    const isToday=els.date.value===todayIso();
+    const nd=new Date(), nowMin=nd.getHours()*60+nd.getMinutes();
+    // On the day, once a leave-by time has passed, switch to "leaving now": arrival time and time spare before the start
+    const enRoute=isToday&&cands.some(c=>c.leave<nowMin);
+    if(enRoute){
+      cands.forEach(c=>{c.arr=Math.ceil(nowMin+c.min);c.spare=c.startMin-c.arr});
+      cands.sort((a,b)=>((a.spare<0)-(b.spare<0))||(a.arr-b.arr));
+    }
     lastLive=cands.some(c=>c.live);
     const isLive=cands.some(c=>c.live);
     const upd=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
     const rShort={fastest:"fastest route",shortest:"shortest route",eco:"economical route"}[routeType];
-    const isToday=els.date.value===todayIso();
     const fDay=new Date(els.date.value+"T12:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
-    const line1=isLive?(isToday?`Live traffic · ${rShort} · updated ${upd}`:`Google forecast for ${fDay} · ${rShort} · updated ${upd}`):`Estimated times${els.key.value.trim()?" · tap Refresh for live":""} · updated ${upd}`;
+    const line1=enRoute?(isLive?`Live traffic · leaving now (${hm(nowMin)}) · ${rShort}`:`Estimated times · leaving now (${hm(nowMin)})${els.key.value.trim()?" · tap Refresh for live":""}`):isLive?(isToday?`Live traffic · ${rShort} · updated ${upd}`:`Google forecast for ${fDay} · ${rShort} · updated ${upd}`):`Estimated times${els.key.value.trim()?" · tap Refresh for live":""} · updated ${upd}`;
     $("summary").innerHTML=`<span class="sline">${line1}</span>${note?`<span class="sline warn">${note}</span>`:""}${skipped.length?`<span class="sline warn">${ic("ban")}Left out as cancelled: ${skipped.join(", ")}</span>`:""}`;
     const org=`${s.lat},${s.lon}`;
     $("list").innerHTML=cands.map((r,i)=>{
@@ -429,11 +440,13 @@ async function run(useLive){
       if(r.live&&routeType!=="fastest"&&r.fastMin&&Math.abs(r.fastMin-r.min)>=1) extra.push(`fastest ${dur(r.fastMin)}`);
       if(r.picked) extra.push(r.picked);
       if(r.live&&r.fuelL&&els.car.value!=="ELECTRIC") extra.push(`≈ ${r.fuelL.toFixed(1)} L fuel`);
-      return `<li class="card">
+      const late=enRoute&&r.spare<0, firstLate=late&&(i===0||cands[i-1].spare>=0);
+      const right=enRoute?`<span class="leave">Arrive<b>${hm(r.arr)}</b><span class="spare">${late?`${dur(-r.spare)} late`:`${dur(r.spare)} spare`}</span></span>`:`<span class="leave">Leave by<b>${hm(Math.floor(r.leave))}</b></span>`;
+      return `${firstLate?`<li class="divider">Can’t make the start</li>`:""}<li class="card${late?" late":enRoute&&r.spare<5?" tight":""}">
         <span class="rank">${i+1}</span>
         <span class="name"><a href="https://www.parkrun.org.uk/${r.slug}/" target="_blank" rel="noopener">${r.name}</a></span>
         <div class="meta">${tag} ${[`<span class="nw">${r.live?"":"≈ "}${dur(r.min)}</span>`,`<span class="nw">${Math.round(r.km*0.621)} mi</span>`,...(r.startMin!==540?[`<span class="nw">starts ${hm(r.startMin)}</span>`]:[]),...extra.map(x=>`<span class="nw">${x}</span>`)].join(" · ")}</div>
-        <span class="leave">Leave by<b>${hm(Math.floor(r.leave))}</b></span>
+        ${right}
         <a class="navbtn" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener" aria-label="Navigate to ${r.name} in Google Maps" title="Navigate in Google Maps">${ic("navigation")}</a>
       </li>`}).join("");
     const used=store.get("ptp.usage."+todayIso().slice(0,7),0);
