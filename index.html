@@ -283,7 +283,7 @@ function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d
   els.date.value=iso(first);
 })();
 // ---------- monthly allowance of live refreshes (shared across devices when a counter link is set) ----------
-const MONTHLY_LIMIT=180, DAILY_SAFETY=30;
+const MONTHLY_LIMIT=180, DAILY_SAFETY=20;
 const monthIso=()=>todayIso().slice(0,7);
 const counterUrl=op=>{const u=els.counter.value.trim();return u?`${u}${u.includes("?")?"&":"?"}op=${op}&limit=${MONTHLY_LIMIT}`:""};
 function monthCount(){const m=store.get("ptp.month",null);if(m&&m.month===monthIso())return m;return {month:monthIso(),count:store.get("ptp.mcount."+monthIso(),0),shared:false}}
