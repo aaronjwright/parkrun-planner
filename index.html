@@ -101,6 +101,9 @@ ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px
 .card.tight .spare,.card.late .spare{color:var(--amber)}
 .card.late{opacity:.55}
 .divider{list-style:none;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:6px 2px 0}
+.chip .bar{display:block;height:6px;border-radius:3px;background:var(--line);margin-top:7px;overflow:hidden}
+.chip .bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.chip .bar.warn i{background:var(--amber)}
 .tag{display:inline-block;font-size:12px;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--ink);margin-right:2px}
 .tag.new{background:var(--soft);color:var(--accent)}
 .tag.live{background:var(--accent);color:var(--accent-ink)}
@@ -145,6 +148,9 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
     <label class="f" for="key">Google Maps key</label>
     <input id="key" type="password" autocomplete="off" placeholder="Paste your key once">
     <div class="hint">Saved on this phone only. Without a key the planner uses distance-based estimates.</div>
+    <label class="f" for="counter">Shared refresh counter</label>
+    <input id="counter" type="password" autocomplete="off" placeholder="Paste the counter link once">
+    <div class="hint">Keeps one monthly count of live refreshes across your phone and laptop.</div>
 </section>
 <section class="panel">
   <label class="f" for="start">Start from</label>
@@ -235,7 +241,7 @@ chip($("evChip"),"Events list",[eventsSource==="live"?"live from parkrun":`updat
 chip($("doneChip"),`Completed list · updated ${fmtDate(DATA.completedUpdated)}`,[`Latest: ${DATA.latest}`,`${DATA.totalRuns} runs`,`${DATA.distinct} events`],ageDays(DATA.completedUpdated)>10,undefined,{icon:"flag",text:`Updated ${new Date(DATA.completedUpdated+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`});
 
 // ---------- settings ----------
-const els={start:$("start"),date:$("date"),early:$("early"),inc:$("incDone"),car:$("car"),traffic:$("traffic"),tolls:$("avTolls"),high:$("avHigh"),ferry:$("avFerry"),key:$("key")};
+const els={start:$("start"),date:$("date"),early:$("early"),inc:$("incDone"),car:$("car"),traffic:$("traffic"),tolls:$("avTolls"),high:$("avHigh"),ferry:$("avFerry"),key:$("key"),counter:$("counter")};
 let routeType=store.get("ptp.route","eco");
 function setRoute(v){routeType=v;[...$("routeSeg").children].forEach(b=>b.classList.toggle("on",b.dataset.v===v))}
 setRoute(routeType);
@@ -250,11 +256,11 @@ els.traffic.value=store.get("ptp.traffic","BEST_GUESS");
 els.tolls.checked=store.get("ptp.tolls",false);
 els.high.checked=store.get("ptp.high",false);
 els.ferry.checked=store.get("ptp.ferry",false);
-els.key.value=store.get("ptp.key","");
+els.key.value=store.get("ptp.key","");els.counter.value=store.get("ptp.counter","");
 function saveSettings(){
   store.set("ptp.start",els.start.value);store.set("ptp.early",+els.early.value||0);store.set("ptp.incDone",els.inc.checked);
   store.set("ptp.car",els.car.value);store.set("ptp.traffic",els.traffic.value);store.set("ptp.tolls",els.tolls.checked);
-  store.set("ptp.high",els.high.checked);store.set("ptp.ferry",els.ferry.checked);store.set("ptp.key",els.key.value.trim());
+  store.set("ptp.high",els.high.checked);store.set("ptp.ferry",els.ferry.checked);store.set("ptp.key",els.key.value.trim());store.set("ptp.counter",els.counter.value.trim());
 }
 function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d.getHours()>=9)d.setDate(d.getDate()+7);else d.setDate(d.getDate()+add);return d}
 // date list: the next 12 Saturdays plus Christmas Day and New Year's Day when they fall in that window
@@ -276,8 +282,33 @@ function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d
   els.date.innerHTML=opts.map(o=>`<option value="${iso(o.d)}">${label(o.d)}${o.extra?" ("+(d=>d.getDay()===6?"":DAY[d.getDay()]+", ")(o.d)+o.extra+")":""}</option>`).join("");
   els.date.value=iso(first);
 })();
-function liveChip(){const on=!!els.key.value.trim();chip($("liveChip"),`Live traffic ${on?"on":"off"}`,[on?"Google routes":"add your Google key in Settings (cog icon, top right)"],!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"})}
-liveChip();
+// ---------- monthly allowance of live refreshes (shared across devices when a counter link is set) ----------
+const MONTHLY_LIMIT=180, DAILY_SAFETY=30;
+const monthIso=()=>todayIso().slice(0,7);
+const counterUrl=op=>{const u=els.counter.value.trim();return u?`${u}${u.includes("?")?"&":"?"}op=${op}&limit=${MONTHLY_LIMIT}`:""};
+function monthCount(){const m=store.get("ptp.month",null);if(m&&m.month===monthIso())return m;return {month:monthIso(),count:store.get("ptp.mcount."+monthIso(),0),shared:false}}
+async function syncCount(){
+  const u=counterUrl("get"); if(!u){store.set("ptp.month",null);liveChip();return}
+  try{const r=await (await fetch(u)).json(); if(r&&typeof r.count==="number") store.set("ptp.month",{month:r.month,count:r.count,shared:true})}catch(e){}
+  liveChip();
+}
+async function takeRefresh(){
+  const dayKey="ptp.refresh."+todayIso(), day=store.get(dayKey,0), mKey="ptp.mcount."+monthIso(), mine=store.get(mKey,0);
+  if(day>=DAILY_SAFETY) return `Daily safety limit of ${DAILY_SAFETY} live refreshes reached on this device, so showing estimates.`;
+  let r=null; const u=counterUrl("take");
+  if(u){try{r=await (await fetch(u)).json(); if(!r||typeof r.count!=="number") r=null}catch(e){r=null}}
+  if(r){store.set("ptp.month",{month:r.month,count:r.count,shared:true});
+    if(!r.ok) return `This month’s ${MONTHLY_LIMIT} live refreshes are used up, so showing estimates. They reset on the 1st.`}
+  else{ if(mine>=MONTHLY_LIMIT) return `This month’s ${MONTHLY_LIMIT} live refreshes are used up on this device, so showing estimates.`;
+    store.set("ptp.month",{month:monthIso(),count:mine+1,shared:false})}
+  store.set(dayKey,day+1); store.set(mKey,mine+1); return "";
+}
+function liveChip(){
+  const on=!!els.key.value.trim(), m=monthCount(), pct=Math.min(100,m.count/MONTHLY_LIMIT*100);
+  chip($("liveChip"),`Live traffic ${on?"on":"off"}`,on?[`${m.count} of ${MONTHLY_LIMIT} live refreshes this month`,m.shared?"all devices":"this device only"]:["add your Google key in Settings (cog icon, top right)"],!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"});
+  if(on) $("liveChip").insertAdjacentHTML("beforeend",`<span class="bar${pct>=75?" warn":""}" role="progressbar" aria-valuemin="0" aria-valuemax="${MONTHLY_LIMIT}" aria-valuenow="${m.count}"><i style="width:${pct}%"></i></span>`);
+}
+liveChip(); syncCount();
 function cancChip(){
   const link=`<a href="https://www.parkrun.org.uk/cancellations/" target="_blank" rel="noopener" style="color:inherit">live list</a>`;
   if(CANC&&CANC.date===els.date.value){
@@ -404,10 +435,8 @@ async function run(useLive){
       .sort((a,b)=>a.min-b.min);
     cands=cands.filter((c,i)=>{const r=cmap[norm(c.name)];if(r){if(i<12)skipped.push(`${c.name} (${r.toLowerCase()})`);return false}return true});
     let note="";
-    const dayKey="ptp.refresh."+todayIso(), usedToday=store.get(dayKey,0), DAILY_LIMIT=10;
-    if(useLive===true&&els.key.value.trim()&&usedToday>=DAILY_LIMIT){note=`Daily limit of ${DAILY_LIMIT} live refreshes reached, so showing estimates. It resets tomorrow.`;useLive=false}
+    if(useLive===true&&els.key.value.trim()){const why=await takeRefresh(); liveChip(); if(why){note=why;useLive=false}}
     if(useLive===true&&els.key.value.trim()){
-      store.set(dayKey,usedToday+1);
       $("summary").textContent="Getting live drive times from Google…";
       try{
         const shortlist=cands.slice(0,CANDIDATES);
@@ -449,8 +478,7 @@ async function run(useLive){
         ${right}
         <a class="navbtn" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener" aria-label="Navigate to ${r.name} in Google Maps" title="Navigate in Google Maps">${ic("navigation")}</a>
       </li>`}).join("");
-    const used=store.get("ptp.usage."+todayIso().slice(0,7),0);
-    $("foot").innerHTML=`${isLive?`${isToday?"Live times from Google":"Google’s forecast, based on typical traffic for that day and time,"} for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Google requests this month on this phone: ${used}. Live refreshes today: ${store.get("ptp.refresh."+todayIso(),0)} of 10.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
+    $("foot").innerHTML=`${isLive?`${isToday?"Live times from Google":"Google’s forecast, based on typical traffic for that day and time,"} for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Live refreshes this month: ${monthCount().count} of ${MONTHLY_LIMIT} (${monthCount().shared?"all devices":"this device"}).`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
       The arrow button opens Google Maps, which picks its own route. Events start at 9:00 unless the card says otherwise (Scotland and Northern Ireland start at 9:30); check the event page for any local change.`;
   }finally{busy=false}
 }
@@ -466,6 +494,7 @@ els.inc.addEventListener("change",run);
 els.early.addEventListener("change",()=>run(lastLive));
 els.date.addEventListener("change",()=>run(false));
 els.key.addEventListener("change",()=>{saveSettings();liveChip()});
+els.counter.addEventListener("change",()=>{saveSettings();syncCount()});
 [els.car,els.traffic,els.tolls,els.high,els.ferry,els.early,els.date].forEach(el=>el.addEventListener("change",saveSettings));
 
 run();
