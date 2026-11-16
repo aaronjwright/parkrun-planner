@@ -418,7 +418,9 @@ async function run(useLive){
     const isLive=cands.some(c=>c.live);
     const upd=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
     const rShort={fastest:"fastest route",shortest:"shortest route",eco:"economical route"}[routeType];
-    const line1=isLive?`Live traffic · ${rShort} · updated ${upd}`:`Estimated times${els.key.value.trim()?" · tap Refresh for live":""} · updated ${upd}`;
+    const isToday=els.date.value===todayIso();
+    const fDay=new Date(els.date.value+"T12:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+    const line1=isLive?(isToday?`Live traffic · ${rShort} · updated ${upd}`:`Google forecast for ${fDay} · ${rShort} · updated ${upd}`):`Estimated times${els.key.value.trim()?" · tap Refresh for live":""} · updated ${upd}`;
     $("summary").innerHTML=`<span class="sline">${line1}</span>${note?`<span class="sline warn">${note}</span>`:""}${skipped.length?`<span class="sline warn">${ic("ban")}Left out as cancelled: ${skipped.join(", ")}</span>`:""}`;
     const org=`${s.lat},${s.lon}`;
     $("list").innerHTML=cands.map((r,i)=>{
@@ -435,7 +437,7 @@ async function run(useLive){
         <a class="navbtn" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener" aria-label="Navigate to ${r.name} in Google Maps" title="Navigate in Google Maps">${ic("navigation")}</a>
       </li>`}).join("");
     const used=store.get("ptp.usage."+todayIso().slice(0,7),0);
-    $("foot").innerHTML=`${isLive?`Live times from Google for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Google requests this month on this phone: ${used}. Live refreshes today: ${store.get("ptp.refresh."+todayIso(),0)} of 10.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
+    $("foot").innerHTML=`${isLive?`${isToday?"Live times from Google":"Google’s forecast, based on typical traffic for that day and time,"} for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Google requests this month on this phone: ${used}. Live refreshes today: ${store.get("ptp.refresh."+todayIso(),0)} of 10.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
       The arrow button opens Google Maps, which picks its own route. Events start at 9:00 unless the card says otherwise (Scotland and Northern Ireland start at 9:30); check the event page for any local change.`;
   }finally{busy=false}
 }
