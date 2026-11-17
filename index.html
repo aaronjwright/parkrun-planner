@@ -502,9 +502,10 @@ async function run(useLive){
         ${right}
         <a class="navbtn" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener" aria-label="Navigate to ${r.name} in Google Maps" title="Navigate in Google Maps">${ic("navigation")}</a>
       </li>`}).join("");
+    const routePhrase={fastest:"the fastest route",shortest:"the shortest route",eco:"an economical route"}[routeType];
     const notes=[
-      isLive?(isToday?`Times use live traffic from Google. It checked the ${CANDIDATES} nearest events, then planned your chosen route to the closest 10.`
-                     :`Times are Google’s forecast, based on typical traffic for that Saturday morning. It checked the ${CANDIDATES} nearest events, then planned your chosen route to the closest 10.`)
+      isLive?(isToday?`Times use live traffic from Google. It checked the ${CANDIDATES} nearest events, then planned ${routePhrase} to the closest 10.`
+                     :`Times are Google’s forecast, based on typical traffic for that Saturday morning. It checked the ${CANDIDATES} nearest events, then planned ${routePhrase} to the closest 10.`)
             :`Times marked ≈ are rough estimates based on distance.${els.key.value.trim()&&!blocked?" Tap Refresh my top 10 for Google’s times.":""}`,
       "Start times are 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland. Check the event’s page for any change.",
       enRoute?"Arrival times assume you set off now.":"",
