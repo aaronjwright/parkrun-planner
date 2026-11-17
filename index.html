@@ -21,7 +21,7 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
-main{max-width:560px;margin:0 auto;padding:16px 14px 40px}
+main{max-width:640px;margin:0 auto;padding:16px 14px 40px}
 h1{font-size:20px;margin:4px 0 10px;letter-spacing:-.01em;line-height:1.3;display:flex;align-items:center;gap:6px}
 h1 .ti{font-size:22px;line-height:1;color:var(--accent);width:22px;height:22px;flex:none}
 .status{display:flex;flex-direction:column;gap:6px;margin:0}
@@ -441,7 +441,7 @@ async function run(useLive){
     cancChip();
     const cmap=cancFor(els.date.value), cancRows=[];
     let cands=all.filter(e=>els.inc.checked||!e.done)
-      .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done,km:est.roadKm,min:est.min,live:false}})
+      .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done,km:est.roadKm,min:est.min,estMin:est.min,live:false}})
       .sort((a,b)=>a.min-b.min);
     {let kept=0; cands=cands.filter(c=>{const r=cmap[norm(c.name)];if(r){if(kept<10)cancRows.push({...c,canc:r.toLowerCase()});return false}kept++;return true})}
     let note="", blocked=false;
@@ -475,7 +475,8 @@ async function run(useLive){
     const org=`${s.lat},${s.lon}`;
     // Cancelled events that would have made the list sit in their place, faded, unnumbered and without a route
     const rows=[...cands];
-    cancRows.forEach(c=>{const at=rows.findIndex(r=>!r.canc&&r.min>c.min); if(at>=0) rows.splice(at,0,c)});
+    // place by the same estimate for every card, so live times (usually shorter than estimates) don't push it off the list
+    cancRows.forEach(c=>{let at=rows.findIndex(r=>!r.canc&&r.estMin>c.estMin); if(at<0) at=rows.length; rows.splice(at,0,c)});
     let rank=0, prevLate=false;
     $("list").innerHTML=rows.map(r=>{
       const tag=r.isDone?`<span class="tag">done${r.count?" ×"+r.count:""}</span>`:`<span class="tag new">new</span>`;
