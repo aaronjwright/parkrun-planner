@@ -1,0 +1,20 @@
+name: parkrun fetch test
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Try reading the results page once
+        run: |
+          code=$(curl -sS -L -o page.html -w "%{http_code}" \
+            -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36" \
+            -H "Accept: text/html,application/xhtml+xml" -H "Accept-Language: en-GB,en;q=0.9" \
+            https://www.parkrun.org.uk/parkrunner/588148/all/ || true)
+          echo "HTTP status: $code"
+          echo "Bytes: $(wc -c < page.html)"
+          echo "Title: $(grep -o '<title>[^<]*' page.html | head -1)"
+          echo "Results tables: $(grep -c 'class="sortable' page.html || true)"
+          echo "Mentions Lingwood: $(grep -c -i 'lingwood' page.html || true)"
+          echo "Challenge/blocked markers: $(grep -c -i -E 'captcha|challenge|access denied|forbidden|cloudflare|aws-waf' page.html || true)"
