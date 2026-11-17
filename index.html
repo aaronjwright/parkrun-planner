@@ -100,6 +100,9 @@ ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px
 .spare{display:block;font-size:12px;color:var(--accent);margin-top:1px}
 .card.tight .spare,.card.late .spare{color:var(--amber)}
 .card.late{opacity:.55}
+.card.cancelled{opacity:.55}
+.card.cancelled .leave b{font-size:15px;color:var(--amber)}
+.card.cancelled .spare{color:var(--amber)}
 .divider{list-style:none;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:6px 2px 0}
 .chip .bar{display:block;height:6px;border-radius:3px;background:var(--line);margin-top:7px;overflow:hidden}
 .chip .bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
@@ -436,11 +439,11 @@ async function run(useLive){
     $("startHint").innerHTML=s.name===LOC?`Starting from your current location${s.acc?` <span class="nw">(within ${s.acc<1000?s.acc+"\u00a0m":(s.acc/1000).toFixed(1)+"\u00a0km"})</span>`:""}.`:(s.name===els.start.value.trim()||s.name===els.start.value.trim()+" parkrun"||s.name===HOME.name?"":`Starting from ${s.name}.`);
     const early=+els.early.value||0;
     cancChip();
-    const cmap=cancFor(els.date.value), skipped=[];
+    const cmap=cancFor(els.date.value), cancRows=[];
     let cands=all.filter(e=>els.inc.checked||!e.done)
       .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done,km:est.roadKm,min:est.min,live:false}})
       .sort((a,b)=>a.min-b.min);
-    cands=cands.filter((c,i)=>{const r=cmap[norm(c.name)];if(r){if(i<12)skipped.push(`${c.name} (${r.toLowerCase()})`);return false}return true});
+    {let kept=0; cands=cands.filter(c=>{const r=cmap[norm(c.name)];if(r){if(kept<10)cancRows.push({...c,canc:r.toLowerCase()});return false}kept++;return true})}
     let note="", blocked=false;
     if(useLive===true&&els.key.value.trim()){const why=await takeRefresh(); liveChip(); if(why){note=why;useLive=false;blocked=true}}
     if(useLive===true&&els.key.value.trim()){
@@ -468,15 +471,26 @@ async function run(useLive){
     const rShort={fastest:"fastest route",shortest:"shortest route",eco:"economical route"}[routeType];
     const fDay=new Date(els.date.value+"T12:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
     const line1=enRoute?(isLive?`Live traffic · leaving now (${hm(nowMin)}) · ${rShort}`:`Estimated times · leaving now (${hm(nowMin)})${els.key.value.trim()&&!blocked?" · tap Refresh for live":""}`):isLive?(isToday?`Live traffic · ${rShort} · updated ${upd}`:`Google forecast for ${fDay} · ${rShort} · updated ${upd}`):`Estimated times${els.key.value.trim()&&!blocked?" · tap Refresh for live":""} · updated ${upd}`;
-    $("summary").innerHTML=`${blocked?"":`<span class="sline">${line1}</span>`}${note?`<span class="sline warn">${note}</span>`:""}${skipped.length?`<span class="sline warn">${ic("ban")}Left out as cancelled: ${skipped.join(", ")}</span>`:""}`;
+    $("summary").innerHTML=`${blocked?"":`<span class="sline">${line1}</span>`}${note?`<span class="sline warn">${note}</span>`:""}`;
     const org=`${s.lat},${s.lon}`;
-    $("list").innerHTML=cands.map((r,i)=>{
+    // Cancelled events that would have made the list sit in their place, faded, unnumbered and without a route
+    const rows=[...cands];
+    cancRows.forEach(c=>{const at=rows.findIndex(r=>!r.canc&&r.min>c.min); if(at>=0) rows.splice(at,0,c)});
+    let rank=0, prevLate=false;
+    $("list").innerHTML=rows.map(r=>{
       const tag=r.isDone?`<span class="tag">done${r.count?" ×"+r.count:""}</span>`:`<span class="tag new">new</span>`;
+      if(r.canc) return `<li class="card cancelled">
+        <span class="rank">–</span>
+        <span class="name"><a href="https://www.parkrun.org.uk/${r.slug}/" target="_blank" rel="noopener">${r.name}</a></span>
+        <div class="meta">${tag} <span class="nw">≈ ${dur(r.min)}</span> · <span class="nw">${Math.round(r.km*0.621)} mi</span></div>
+        <span class="leave"><b>Cancelled</b><span class="spare">${r.canc}</span></span>
+      </li>`;
+      rank++; const i=rank-1;
       const extra=[];
       if(r.live&&routeType!=="fastest"&&r.fastMin&&Math.abs(r.fastMin-r.min)>=1) extra.push(`fastest ${dur(r.fastMin)}`);
       if(r.picked) extra.push(r.picked);
       if(r.live&&r.fuelL&&els.car.value!=="ELECTRIC") extra.push(`≈ ${r.fuelL.toFixed(1)} L fuel`);
-      const late=enRoute&&r.spare<0, firstLate=late&&(i===0||cands[i-1].spare>=0);
+      const late=enRoute&&r.spare<0, firstLate=late&&!prevLate; prevLate=late;
       const right=enRoute?`<span class="leave">Arrive<b>${hm(r.arr)}</b><span class="spare">${late?`${dur(-r.spare)} late`:`${dur(r.spare)} spare`}</span></span>`:`<span class="leave">Leave by<b>${hm(Math.floor(r.leave))}</b></span>`;
       return `${firstLate?`<li class="divider">Can’t make the start</li>`:""}<li class="card${late?" late":enRoute&&r.spare<5?" tight":""}">
         <span class="rank">${i+1}</span>
