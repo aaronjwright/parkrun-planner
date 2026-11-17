@@ -506,10 +506,10 @@ async function run(useLive){
       isLive?(isToday?`Times use live traffic from Google. It checked the ${CANDIDATES} nearest events, then planned your chosen route to the closest 10.`
                      :`Times are Google’s forecast, based on typical traffic for that Saturday morning. It checked the ${CANDIDATES} nearest events, then planned your chosen route to the closest 10.`)
             :`Times marked ≈ are rough estimates based on distance.${els.key.value.trim()&&!blocked?" Tap Refresh my top 10 for Google’s times.":""}`,
+      "Start times are 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland. Check the event’s page for any change.",
       enRoute?"Arrival times assume you set off now.":"",
       rows.some(r=>r.canc)?"Faded cards are cancelled and not counted in your 10.":"",
-      "The arrow opens Google Maps, which may suggest a different route.",
-      "Start times are 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland. Check the event’s page for any change."
+      "The arrow opens Google Maps, which may suggest a different route."
     ].filter(Boolean);
     $("foot").innerHTML=notes.map(n=>`<p>${n}</p>`).join("");
   }finally{busy=false}
