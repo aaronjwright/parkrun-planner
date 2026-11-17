@@ -311,7 +311,8 @@ function liveChip(){
   const on=!!els.key.value.trim(), g=googleUsage();
   const used=g?gUsed(g):store.get("ptp.mcount."+monthIso(),0), max=g?FREE:MONTHLY_LIMIT, pct=Math.min(100,used/max*100);
   const parts=!on?["add your Google key in Settings (cog icon, top right)"]:g?[`${used.toLocaleString("en-GB")} of ${FREE.toLocaleString("en-GB")} free · resets ${resetShort(g)}`]:[`${used} of ${MONTHLY_LIMIT} live refreshes this month`,"this device only"];
-  chip($("liveChip"),`Live traffic ${on?"on":"off"}${on&&g?" · Google’s count":""}`,parts,!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"});
+  const paused=on&&(g?used+PER_REFRESH>STOP_AT:used>=MONTHLY_LIMIT);
+  chip($("liveChip"),`Live traffic ${!on?"off":paused?"paused":"on"}${on&&g?" · Google’s count":""}`,parts,!on||paused,false,{icon:"car",text:!on?"Traffic off":paused?"Live paused":"Live traffic"});
   if(on) $("liveChip").insertAdjacentHTML("beforeend",`<span class="bar${pct>=75?" warn":""}" role="progressbar" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${used}"><i style="width:${pct}%"></i></span>`);
 }
 liveChip(); syncCount();
