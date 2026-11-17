@@ -509,7 +509,7 @@ async function run(useLive){
             :`Times marked ≈ are rough estimates based on distance.${els.key.value.trim()&&!blocked?" Tap Refresh my top 10 for Google’s times.":""}`,
       "Start times are 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland. Check the event’s page for any change.",
       enRoute?"Arrival times assume you set off now.":"",
-      rows.some(r=>r.canc)?"Faded cards are cancelled and not counted in your 10.":"",
+      rows.some(r=>r.canc)?"Cards marked Cancelled are not counted in your top 10.":"",
       "The arrow opens Google Maps, which may suggest a different route."
     ].filter(Boolean);
     $("foot").innerHTML=notes.map(n=>`<p>${n}</p>`).join("");
