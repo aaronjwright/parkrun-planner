@@ -299,18 +299,19 @@ async function takeRefresh(){
   const dayKey="ptp.refresh."+todayIso(), day=store.get(dayKey,0), mKey="ptp.mcount."+monthIso(), mine=store.get(mKey,0);
   if(day>=DAILY_SAFETY) return `Daily safety limit of ${DAILY_SAFETY} live refreshes reached on this device, so showing estimates.`;
   const g=els.counter.value.trim()?await fetchUsage(true):null;
-  if(g){ if(gUsed(g)+PER_REFRESH>STOP_AT) return `Google usage is at ${gUsed(g).toLocaleString("en-GB")} of the ${FREE.toLocaleString("en-GB")} free this month, so showing estimates until it resets on ${resetLabel(g)}.`;
+  if(g){ if(gUsed(g)+PER_REFRESH>STOP_AT) return `Estimated times until ${resetShort(g)} · Google allowance nearly used`;
     store.set("ptp.google",{...g,matrix:g.matrix+PER_REFRESH,routes:g.routes+10}); }
   else if(mine>=MONTHLY_LIMIT) return `This device has used its ${MONTHLY_LIMIT} live refreshes this month, so showing estimates.`;
   store.set(dayKey,day+1); store.set(mKey,mine+1); return "";
 }
+const resetShort=g=>new Date(g.resetsAt).toLocaleDateString("en-GB",{day:"numeric",month:"short"});
 const resetLabel=g=>{const d=new Date(g.resetsAt);return `${d.toLocaleDateString("en-GB",{day:"numeric",month:"short"})} at ${d.toLocaleTimeString("en-GB",{hour:"numeric",minute:"2-digit"})}`};
 function usageText(){const g=googleUsage();return g?`Google usage this month: ${gUsed(g).toLocaleString("en-GB")} of ${FREE.toLocaleString("en-GB")} free`:`Live refreshes this month: ${store.get("ptp.mcount."+monthIso(),0)} of ${MONTHLY_LIMIT} (this device)`}
 function liveChip(){
   const on=!!els.key.value.trim(), g=googleUsage();
   const used=g?gUsed(g):store.get("ptp.mcount."+monthIso(),0), max=g?FREE:MONTHLY_LIMIT, pct=Math.min(100,used/max*100);
-  const parts=!on?["add your Google key in Settings (cog icon, top right)"]:g?[`${used.toLocaleString("en-GB")} of ${FREE.toLocaleString("en-GB")} free this month`,`Google’s count`,`resets ${resetLabel(g)}`]:[`${used} of ${MONTHLY_LIMIT} live refreshes this month`,"this device only"];
-  chip($("liveChip"),`Live traffic ${on?"on":"off"}`,parts,!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"});
+  const parts=!on?["add your Google key in Settings (cog icon, top right)"]:g?[`${used.toLocaleString("en-GB")} of ${FREE.toLocaleString("en-GB")} free · resets ${resetShort(g)}`]:[`${used} of ${MONTHLY_LIMIT} live refreshes this month`,"this device only"];
+  chip($("liveChip"),`Live traffic ${on?"on":"off"}${on&&g?" · Google’s count":""}`,parts,!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"});
   if(on) $("liveChip").insertAdjacentHTML("beforeend",`<span class="bar${pct>=75?" warn":""}" role="progressbar" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${used}"><i style="width:${pct}%"></i></span>`);
 }
 liveChip(); syncCount();
@@ -466,7 +467,7 @@ async function run(useLive){
     const rShort={fastest:"fastest route",shortest:"shortest route",eco:"economical route"}[routeType];
     const fDay=new Date(els.date.value+"T12:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
     const line1=enRoute?(isLive?`Live traffic · leaving now (${hm(nowMin)}) · ${rShort}`:`Estimated times · leaving now (${hm(nowMin)})${els.key.value.trim()&&!blocked?" · tap Refresh for live":""}`):isLive?(isToday?`Live traffic · ${rShort} · updated ${upd}`:`Google forecast for ${fDay} · ${rShort} · updated ${upd}`):`Estimated times${els.key.value.trim()&&!blocked?" · tap Refresh for live":""} · updated ${upd}`;
-    $("summary").innerHTML=`<span class="sline">${line1}</span>${note?`<span class="sline warn">${note}</span>`:""}${skipped.length?`<span class="sline warn">${ic("ban")}Left out as cancelled: ${skipped.join(", ")}</span>`:""}`;
+    $("summary").innerHTML=`${blocked?"":`<span class="sline">${line1}</span>`}${note?`<span class="sline warn">${note}</span>`:""}${skipped.length?`<span class="sline warn">${ic("ban")}Left out as cancelled: ${skipped.join(", ")}</span>`:""}`;
     const org=`${s.lat},${s.lon}`;
     $("list").innerHTML=cands.map((r,i)=>{
       const tag=r.isDone?`<span class="tag">done${r.count?" ×"+r.count:""}</span>`:`<span class="tag new">new</span>`;
