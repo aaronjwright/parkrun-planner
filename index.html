@@ -111,6 +111,7 @@ ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px
 .tag.new{background:var(--soft);color:var(--accent)}
 .tag.live{background:var(--accent);color:var(--accent-ink)}
 footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
+footer p{margin:0 0 6px}
 </style>
 </head>
 <body>
@@ -501,8 +502,16 @@ async function run(useLive){
         ${right}
         <a class="navbtn" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener" aria-label="Navigate to ${r.name} in Google Maps" title="Navigate in Google Maps">${ic("navigation")}</a>
       </li>`}).join("");
-    $("foot").innerHTML=`${isLive?`${isToday?"Live times from Google":"Google’s forecast, based on typical traffic for that day and time,"} for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. ${usageText()}.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
-      The arrow button opens Google Maps, which picks its own route. Events start at 9:00 unless the card says otherwise (Scotland and Northern Ireland start at 9:30); check the event page for any local change.`;
+    const notes=[
+      isLive?(isToday?`Times use live traffic from Google. It checked the ${CANDIDATES} nearest events, then planned your chosen route to the closest 10.`
+                     :`Times are Google’s forecast, based on typical traffic for that Saturday morning. It checked the ${CANDIDATES} nearest events, then planned your chosen route to the closest 10.`)
+            :`Times marked ≈ are rough estimates based on distance.${els.key.value.trim()&&!blocked?" Tap Refresh my top 10 for Google’s times.":""}`,
+      enRoute?"Arrival times assume you set off now.":"",
+      rows.some(r=>r.canc)?"Faded cards are cancelled and not counted in your 10.":"",
+      "The arrow opens Google Maps, which may suggest a different route.",
+      "Most events start at 9:00, or 9:30 in Scotland and Northern Ireland. Check the event’s page for any change."
+    ].filter(Boolean);
+    $("foot").innerHTML=notes.map(n=>`<p>${n}</p>`).join("");
   }finally{busy=false}
 }
 $("go").onclick=()=>run(true);
