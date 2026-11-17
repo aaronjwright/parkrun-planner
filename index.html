@@ -148,9 +148,9 @@ footer{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
     <label class="f" for="key">Google Maps key</label>
     <input id="key" type="password" autocomplete="off" placeholder="Paste your key once">
     <div class="hint">Saved on this phone only. Without a key the planner uses distance-based estimates.</div>
-    <label class="f" for="counter">Shared refresh counter</label>
-    <input id="counter" type="password" autocomplete="off" placeholder="Paste the counter link once">
-    <div class="hint">Keeps one monthly count of live refreshes across your phone and laptop.</div>
+    <label class="f" for="counter">Google usage link</label>
+    <input id="counter" type="password" autocomplete="off" placeholder="Paste the usage link once">
+    <div class="hint">Shows Google’s own count of this month’s usage, across all your devices.</div>
 </section>
 <section class="panel">
   <label class="f" for="start">Start from</label>
@@ -282,31 +282,36 @@ function nextSat(){const d=new Date();const add=(6-d.getDay()+7)%7;if(add===0&&d
   els.date.innerHTML=opts.map(o=>`<option value="${iso(o.d)}">${label(o.d)}${o.extra?" ("+(d=>d.getDay()===6?"":DAY[d.getDay()]+", ")(o.d)+o.extra+")":""}</option>`).join("");
   els.date.value=iso(first);
 })();
-// ---------- monthly allowance of live refreshes (shared across devices when a counter link is set) ----------
-const MONTHLY_LIMIT=180, DAILY_SAFETY=20;
+// ---------- Google usage this month (read from Google via the usage link) ----------
+// Without the link, falls back to counting this device's refreshes (180 ≈ 4,500 of the 5,000 free).
+const FREE=5000, STOP_AT=4500, PER_REFRESH=25, MONTHLY_LIMIT=180, DAILY_SAFETY=20;
 const monthIso=()=>todayIso().slice(0,7);
-const counterUrl=op=>{const u=els.counter.value.trim();return u?`${u}${u.includes("?")?"&":"?"}op=${op}&limit=${MONTHLY_LIMIT}`:""};
-function monthCount(){const m=store.get("ptp.month",null);if(m&&m.month===monthIso())return m;return {month:monthIso(),count:store.get("ptp.mcount."+monthIso(),0),shared:false}}
-async function syncCount(){
-  const u=counterUrl("get"); if(!u){store.set("ptp.month",null);liveChip();return}
-  try{const r=await (await fetch(u)).json(); if(r&&typeof r.count==="number") store.set("ptp.month",{month:r.month,count:r.count,shared:true})}catch(e){}
-  liveChip();
+const usageUrl=fresh=>{const u=els.counter.value.trim();return u?`${u}${u.includes("?")?"&":"?"}${fresh?"fresh=1":"v=1"}`:""};
+const gUsed=g=>Math.max(g.matrix||0,g.routes||0);
+function googleUsage(){const g=store.get("ptp.google",null);return g&&g.resetsAt&&new Date(g.resetsAt)>new Date()?g:null}
+async function fetchUsage(fresh){
+  const u=usageUrl(fresh); if(!u) return null;
+  try{const r=await (await fetch(u)).json(); if(r&&r.source==="google"&&typeof r.matrix==="number"){store.set("ptp.google",r);return r}}catch(e){}
+  return null;
 }
+async function syncCount(){ if(!els.counter.value.trim()) store.set("ptp.google",null); else await fetchUsage(false); liveChip(); }
 async function takeRefresh(){
   const dayKey="ptp.refresh."+todayIso(), day=store.get(dayKey,0), mKey="ptp.mcount."+monthIso(), mine=store.get(mKey,0);
   if(day>=DAILY_SAFETY) return `Daily safety limit of ${DAILY_SAFETY} live refreshes reached on this device, so showing estimates.`;
-  let r=null; const u=counterUrl("take");
-  if(u){try{r=await (await fetch(u)).json(); if(!r||typeof r.count!=="number") r=null}catch(e){r=null}}
-  if(r){store.set("ptp.month",{month:r.month,count:r.count,shared:true});
-    if(!r.ok) return `This month’s ${MONTHLY_LIMIT} live refreshes are used up, so showing estimates. They reset on the 1st.`}
-  else{ if(mine>=MONTHLY_LIMIT) return `This month’s ${MONTHLY_LIMIT} live refreshes are used up on this device, so showing estimates.`;
-    store.set("ptp.month",{month:monthIso(),count:mine+1,shared:false})}
+  const g=els.counter.value.trim()?await fetchUsage(true):null;
+  if(g){ if(gUsed(g)+PER_REFRESH>STOP_AT) return `Google usage is at ${gUsed(g).toLocaleString("en-GB")} of the ${FREE.toLocaleString("en-GB")} free this month, so showing estimates until it resets on ${resetLabel(g)}.`;
+    store.set("ptp.google",{...g,matrix:g.matrix+PER_REFRESH,routes:g.routes+10}); }
+  else if(mine>=MONTHLY_LIMIT) return `This device has used its ${MONTHLY_LIMIT} live refreshes this month, so showing estimates.`;
   store.set(dayKey,day+1); store.set(mKey,mine+1); return "";
 }
+const resetLabel=g=>{const d=new Date(g.resetsAt);return `${d.toLocaleDateString("en-GB",{day:"numeric",month:"short"})} at ${d.toLocaleTimeString("en-GB",{hour:"numeric",minute:"2-digit"})}`};
+function usageText(){const g=googleUsage();return g?`Google usage this month: ${gUsed(g).toLocaleString("en-GB")} of ${FREE.toLocaleString("en-GB")} free`:`Live refreshes this month: ${store.get("ptp.mcount."+monthIso(),0)} of ${MONTHLY_LIMIT} (this device)`}
 function liveChip(){
-  const on=!!els.key.value.trim(), m=monthCount(), pct=Math.min(100,m.count/MONTHLY_LIMIT*100);
-  chip($("liveChip"),`Live traffic ${on?"on":"off"}`,on?[`${m.count} of ${MONTHLY_LIMIT} live refreshes this month`,m.shared?"all devices":"this device only"]:["add your Google key in Settings (cog icon, top right)"],!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"});
-  if(on) $("liveChip").insertAdjacentHTML("beforeend",`<span class="bar${pct>=75?" warn":""}" role="progressbar" aria-valuemin="0" aria-valuemax="${MONTHLY_LIMIT}" aria-valuenow="${m.count}"><i style="width:${pct}%"></i></span>`);
+  const on=!!els.key.value.trim(), g=googleUsage();
+  const used=g?gUsed(g):store.get("ptp.mcount."+monthIso(),0), max=g?FREE:MONTHLY_LIMIT, pct=Math.min(100,used/max*100);
+  const parts=!on?["add your Google key in Settings (cog icon, top right)"]:g?[`${used.toLocaleString("en-GB")} of ${FREE.toLocaleString("en-GB")} free this month`,`Google’s count`,`resets ${resetLabel(g)}`]:[`${used} of ${MONTHLY_LIMIT} live refreshes this month`,"this device only"];
+  chip($("liveChip"),`Live traffic ${on?"on":"off"}`,parts,!on,false,{icon:"car",text:on?"Live traffic":"Traffic off"});
+  if(on) $("liveChip").insertAdjacentHTML("beforeend",`<span class="bar${pct>=75?" warn":""}" role="progressbar" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${used}"><i style="width:${pct}%"></i></span>`);
 }
 liveChip(); syncCount();
 function cancChip(){
@@ -478,7 +483,7 @@ async function run(useLive){
         ${right}
         <a class="navbtn" href="https://www.google.com/maps/dir/?api=1&origin=${org}&destination=${r.lat},${r.lon}&travelmode=driving" target="_blank" rel="noopener" aria-label="Navigate to ${r.name} in Google Maps" title="Navigate in Google Maps">${ic("navigation")}</a>
       </li>`}).join("");
-    $("foot").innerHTML=`${isLive?`${isToday?"Live times from Google":"Google’s forecast, based on typical traffic for that day and time,"} for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. Live refreshes this month: ${monthCount().count} of ${MONTHLY_LIMIT} (${monthCount().shared?"all devices":"this device"}).`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
+    $("foot").innerHTML=`${isLive?`${isToday?"Live times from Google":"Google’s forecast, based on typical traffic for that day and time,"} for the ${CANDIDATES} nearest events by distance, then the top 10 routed with your settings. ${usageText()}.`:`Ranked by estimated drive time from straight-line distance with an allowance for roads.`}
       The arrow button opens Google Maps, which picks its own route. Events start at 9:00 unless the card says otherwise (Scotland and Northern Ireland start at 9:30); check the event page for any local change.`;
   }finally{busy=false}
 }
