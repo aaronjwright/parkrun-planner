@@ -439,8 +439,8 @@ async function run(useLive){
       .map(e=>{const km=hav(s.lat,s.lon,e.lat,e.lon);const est=estMin(km);return {...e,isDone:e.done,km:est.roadKm,min:est.min,live:false}})
       .sort((a,b)=>a.min-b.min);
     cands=cands.filter((c,i)=>{const r=cmap[norm(c.name)];if(r){if(i<12)skipped.push(`${c.name} (${r.toLowerCase()})`);return false}return true});
-    let note="";
-    if(useLive===true&&els.key.value.trim()){const why=await takeRefresh(); liveChip(); if(why){note=why;useLive=false}}
+    let note="", blocked=false;
+    if(useLive===true&&els.key.value.trim()){const why=await takeRefresh(); liveChip(); if(why){note=why;useLive=false;blocked=true}}
     if(useLive===true&&els.key.value.trim()){
       $("summary").textContent="Getting live drive times from Google…";
       try{
@@ -465,7 +465,7 @@ async function run(useLive){
     const upd=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
     const rShort={fastest:"fastest route",shortest:"shortest route",eco:"economical route"}[routeType];
     const fDay=new Date(els.date.value+"T12:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
-    const line1=enRoute?(isLive?`Live traffic · leaving now (${hm(nowMin)}) · ${rShort}`:`Estimated times · leaving now (${hm(nowMin)})${els.key.value.trim()?" · tap Refresh for live":""}`):isLive?(isToday?`Live traffic · ${rShort} · updated ${upd}`:`Google forecast for ${fDay} · ${rShort} · updated ${upd}`):`Estimated times${els.key.value.trim()?" · tap Refresh for live":""} · updated ${upd}`;
+    const line1=enRoute?(isLive?`Live traffic · leaving now (${hm(nowMin)}) · ${rShort}`:`Estimated times · leaving now (${hm(nowMin)})${els.key.value.trim()&&!blocked?" · tap Refresh for live":""}`):isLive?(isToday?`Live traffic · ${rShort} · updated ${upd}`:`Google forecast for ${fDay} · ${rShort} · updated ${upd}`):`Estimated times${els.key.value.trim()&&!blocked?" · tap Refresh for live":""} · updated ${upd}`;
     $("summary").innerHTML=`<span class="sline">${line1}</span>${note?`<span class="sline warn">${note}</span>`:""}${skipped.length?`<span class="sline warn">${ic("ban")}Left out as cancelled: ${skipped.join(", ")}</span>`:""}`;
     const org=`${s.lat},${s.lon}`;
     $("list").innerHTML=cands.map((r,i)=>{
