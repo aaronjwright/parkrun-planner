@@ -1,5 +1,8 @@
 name: parkrun fetch test
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    paths: ['.github/workflows/parkrun-fetch-test.yml']
 permissions:
   contents: read
 jobs:
