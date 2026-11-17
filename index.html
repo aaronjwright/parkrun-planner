@@ -509,7 +509,7 @@ async function run(useLive){
       enRoute?"Arrival times assume you set off now.":"",
       rows.some(r=>r.canc)?"Faded cards are cancelled and not counted in your 10.":"",
       "The arrow opens Google Maps, which may suggest a different route.",
-      "Most events start at 9:00, or 9:30 in Scotland and Northern Ireland. Check the event’s page for any change."
+      "Start times are 9:00 in England and Wales and 9:30 in Scotland and Northern Ireland. Check the event’s page for any change."
     ].filter(Boolean);
     $("foot").innerHTML=notes.map(n=>`<p>${n}</p>`).join("");
   }finally{busy=false}
