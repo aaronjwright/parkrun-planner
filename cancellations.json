@@ -4,7 +4,7 @@
   "events": [
     {"name": "ARU Writtle", "reason": "Venue unavailable"},
     {"name": "Ae Forest", "reason": "Venue unavailable"},
-    {"name": "Albert parkrun, Middlesbrough", "reason": "Course unsafe or blocked"},
+    {"name": "Albert", "reason": "Course unsafe or blocked"},
     {"name": "Belfast Victoria", "reason": "Shortage of volunteers"},
     {"name": "Belvoir Forest", "reason": "Shortage of volunteers"},
     {"name": "Carrickfergus", "reason": "Venue unavailable"},
@@ -12,7 +12,7 @@
     {"name": "Cuningar Loop", "reason": "Weather"},
     {"name": "Downham Market Academy", "reason": "Weather"},
     {"name": "Flegg High", "reason": "Venue unavailable"},
-    {"name": "Hazlehead parkrun, Aberdeen", "reason": "Course unsafe or blocked"},
+    {"name": "Hazlehead", "reason": "Course unsafe or blocked"},
     {"name": "Highcliffe Beach", "reason": "Course unsafe or blocked"},
     {"name": "Jesmond Dene", "reason": "Course unsafe or blocked"},
     {"name": "Lordship Recreation Ground", "reason": "Venue unavailable"},
