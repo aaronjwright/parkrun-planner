@@ -450,8 +450,9 @@ async function run(useLive){
     if(useLive===true&&els.key.value.trim()){
       $("summary").textContent="Getting live drive times from Google…";
       try{
-        const shortlist=cands.slice(0,CANDIDATES);
-        const live=await liveTimes(s,shortlist,early);
+        // cancelled events that would have made the list ride along in the same request (no extra cost), so their card shows a real time
+        const shortlist=cands.slice(0,CANDIDATES-cancRows.length).concat(cancRows);
+        const live=(await liveTimes(s,shortlist,early)).filter(c=>!c.canc);
         live.sort((a,b)=>a.min-b.min);
         cands=live.slice(0,10);
         await Promise.all(cands.map(c=>routeFor(s,c,early).catch(()=>{})));
@@ -478,14 +479,19 @@ async function run(useLive){
     // Cancelled events that would have made the list sit in their place, faded, unnumbered and without a route
     const rows=[...cands];
     // place by the same estimate for every card, so live times (usually shorter than estimates) don't push it off the list
-    cancRows.forEach(c=>{let at=rows.findIndex(r=>!r.canc&&r.estMin>c.estMin); if(at<0) at=rows.length; rows.splice(at,0,c)});
+    // place each cancelled card where its time ranks: Google's time when it has one, otherwise compare estimates
+    cancRows.forEach(c=>{
+      const key=r=>c.live?r.min:r.estMin, real=rows.filter(r=>!r.canc);
+      let at=rows.findIndex(r=>!r.canc&&key(r)>key(c));
+      if(at<0){ if(c.live&&real.length>=10) return; at=rows.length }
+      rows.splice(at,0,c)});
     let rank=0, prevLate=false;
     $("list").innerHTML=rows.map(r=>{
       const tag=r.isDone?`<span class="tag">done${r.count?" ×"+r.count:""}</span>`:`<span class="tag new">new</span>`;
       if(r.canc) return `<li class="card cancelled">
         <span class="rank">–</span>
         <span class="name"><a href="https://www.parkrun.org.uk/${r.slug}/" target="_blank" rel="noopener">${r.name}</a></span>
-        <div class="meta">${tag} <span class="nw">≈ ${dur(r.min)}</span> · <span class="nw">${Math.round(r.km*0.621)} mi</span></div>
+        <div class="meta">${tag} <span class="nw">${r.live?"":"≈ "}${dur(r.min)}</span> · <span class="nw">${Math.round(r.km*0.621)} mi</span></div>
         <span class="leave"><b>Cancelled</b><span class="spare">${r.canc}</span></span>
       </li>`;
       rank++; const i=rank-1;
