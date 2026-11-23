@@ -4,7 +4,6 @@ A personal, single-page parkrun travel planner for Aaron. It ranks the nearest U
 
 - `index.html`: the whole app. It needs no build step.
 - `data.json`: the completed-events list plus a snapshot of UK event locations. A weekday scheduled task refreshes it.
-- `cancellations.json`: refreshed by scheduled tasks at about 20:57 on Friday and 07:13 on Saturday (UK time).
 
 The Google Maps key is never stored in this repo. It's entered once on the phone and kept in that browser only. The key itself is restricted to this site's address and the Routes API.
 

@@ -427,7 +427,7 @@ async function routeFor(s,c,early){
 }
 
 // ---------- done on this phone ----------
-try{localStorage.removeItem("ptp.done");localStorage.removeItem("ptp.gh")}catch(e){}
+try{localStorage.removeItem("ptp.done")}catch(e){}
 
 // ---------- main ----------
 let busy=false, lastLive=false;
