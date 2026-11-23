@@ -3,7 +3,7 @@
 A personal, single-page parkrun travel planner for Aaron. It ranks the nearest UK parkruns, either ones he hasn't done or all of them, from any start point. It shows leave-by times for arriving early, and live Google drive times when a key has been entered on the phone.
 
 - `index.html`: the whole app. It needs no build step.
-- `data.json`: the completed-events list plus a snapshot of UK event locations. The completed list is refreshed from Aaron’s phone: the “Update planner” bookmarklet (`tools/bookmarklet.js`, copied from Settings) reads his parkrun results page and opens the planner, which sends it to the `refresh-completed` GitHub Action (`tools/check_extract.py`, then `tools/update_done.py`). The planner shows “Update due” from 11:00 each Saturday until it’s done.
+- `data.json`: the completed-events list plus a snapshot of UK event locations. A weekday scheduled task refreshes it.
 - `cancellations.json`: refreshed by scheduled tasks at about 20:57 on Friday and 07:13 on Saturday (UK time).
 
 The Google Maps key is never stored in this repo. It's entered once on the phone and kept in that browser only. The key itself is restricted to this site's address and the Routes API.

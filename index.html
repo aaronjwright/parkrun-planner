@@ -61,8 +61,6 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);borde
 .seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
 button,.btn{font:inherit;border:0;border-radius:10px;padding:10px 12px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .primary{background:var(--accent);color:var(--accent-ink);font-weight:600;width:100%;margin-top:12px}
-.sec{background:var(--soft);color:var(--accent);font-weight:600;width:100%;margin-top:12px}
-.chip a{color:inherit;font-weight:600}
 .locbtn{background:var(--soft);color:var(--accent);width:44px;flex:none;padding:0}
 .locbtn .ti{font-size:22px}
 .locbtn.busy .ti{animation:pulse 1s ease-in-out infinite}
@@ -157,11 +155,6 @@ footer p{margin:0 0 6px}
     <label class="f" for="counter">Google usage link</label>
     <input id="counter" type="password" autocomplete="off" placeholder="Paste the usage link once">
     <div class="hint">Shows Google’s own count of this month’s usage, across all your devices.</div>
-    <label class="f" for="gh">GitHub token (completed list updates)</label>
-    <input id="gh" type="password" autocomplete="off" placeholder="Paste the token once">
-    <div class="hint">Saved on this phone only. Lets the update bookmark refresh your completed list.</div>
-    <button type="button" class="btn sec" id="bmCopy">Copy update bookmark</button>
-    <div class="hint" id="bmHint">Save it as a Chrome bookmark named “Update planner”. On your parkrun results page, type that name in the address bar and tap the bookmark.</div>
 </section>
 <section class="panel">
   <label class="f" for="start">Start from</label>
@@ -249,46 +242,10 @@ const ageDays=iso=>(Date.now()-new Date(iso+"T12:00:00"))/864e5;
 const chip=(el,title,parts,stale,overdue=stale,pill=null)=>{el.innerHTML=`<span class="t">${title}${overdue?" · overdue":""}</span><span class="d">${parts.map(p=>`<span class="nw">${p}</span>`).join(" · ")}</span>`;el.classList.toggle("stale",!!stale);
   const pe=document.getElementById(el.id+"P"); if(pe&&pill){pe.innerHTML=`${ic(pill.icon)}${pill.text}${overdue?" · overdue":""}`;pe.classList.toggle("stale",!!stale);pe.classList.toggle("alert",!!pill.alert)}};
 chip($("evChip"),"Events list",[eventsSource==="live"?"live from parkrun":`updated ${fmtDate(DATA.eventsUpdated)}`,`${todoCount} UK events left to do`],eventsSource!=="live"&&ageDays(DATA.eventsUpdated)>10,undefined,{icon:"list-check",text:`${todoCount} left${eventsSource==="live"?" · live":""}`});
-// completed list is due once results are out (from 11:00 on Saturday) and it predates that Saturday
-const RESULTS_URL="https://www.parkrun.org.uk/parkrunner/588148/all/";
-function doneDue(){const d=new Date();const sat=new Date(d);sat.setDate(d.getDate()-((d.getDay()+1)%7));
-  if(d.getDay()===6&&d.getHours()<11)return false;
-  const iso=`${sat.getFullYear()}-${String(sat.getMonth()+1).padStart(2,"0")}-${String(sat.getDate()).padStart(2,"0")}`;
-  return DATA.completedUpdated<iso}
-function doneStatus(msg){const due=doneDue();const upd=new Date(DATA.completedUpdated+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"});
-  const parts=[`Latest: ${DATA.latest}`,`${DATA.totalRuns} runs`,`${DATA.distinct} events`];
-  if(due)parts.push(`To update: open <a href="${RESULTS_URL}" target="_blank" rel="noopener">your results page</a> and tap your “Update planner” bookmark`);
-  if(msg)parts.unshift(msg);
-  chip($("doneChip"),`Completed list · updated ${fmtDate(DATA.completedUpdated)}`,parts,due,false,{icon:"flag",text:due?"Update due":`Updated ${upd}`,alert:due})}
-doneStatus();
+chip($("doneChip"),`Completed list · updated ${fmtDate(DATA.completedUpdated)}`,[`Latest: ${DATA.latest}`,`${DATA.totalRuns} runs`,`${DATA.distinct} events`],ageDays(DATA.completedUpdated)>10,undefined,{icon:"flag",text:`Updated ${new Date(DATA.completedUpdated+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`});
 
 // ---------- settings ----------
-const els={start:$("start"),date:$("date"),early:$("early"),inc:$("incDone"),car:$("car"),traffic:$("traffic"),tolls:$("avTolls"),high:$("avHigh"),ferry:$("avFerry"),key:$("key"),counter:$("counter"),gh:$("gh")};
-els.gh.value=store.get("ptp.gh","");
-els.gh.addEventListener("change",()=>store.set("ptp.gh",els.gh.value.trim()));
-$("bmCopy").addEventListener("click",async()=>{
-  try{const src=await (await fetch("tools/bookmarklet.js",{cache:"no-store"})).text();
-    await navigator.clipboard.writeText("javascript:"+encodeURIComponent(src));
-    $("bmHint").textContent="Copied. In Chrome, bookmark any page, edit that bookmark, name it “Update planner” and paste this as its URL."}
-  catch(e){$("bmHint").innerHTML=`<span class="err">Couldn’t copy (${e.message}).</span>`}
-});
-// ---------- import from the bookmarklet ----------
-async function importFromHash(){
-  const m=location.hash.match(/^#import=(.+)$/); if(!m) return;
-  history.replaceState(null,"",location.pathname+location.search);
-  let raw; try{raw=decodeURIComponent(m[1]);const j=JSON.parse(raw);if(j.error||!Array.isArray(j.done))throw new Error(j.error||"bad data")}
-  catch(e){doneStatus(`<span class="err">The bookmark’s data couldn’t be read (${e.message}).</span>`);showChip("doneChip");return}
-  const tok=store.get("ptp.gh","");
-  if(!tok){doneStatus(`<span class="err">Add your GitHub token in Settings (cog icon), then tap the bookmark again.</span>`);showChip("doneChip");return}
-  doneStatus("Sending your results…");showChip("doneChip");
-  try{
-    const r=await fetch("https://api.github.com/repos/aaronjwright/parkrun-planner/dispatches",{method:"POST",
-      headers:{"Accept":"application/vnd.github+json","Authorization":"Bearer "+tok,"X-GitHub-Api-Version":"2022-11-28","Content-Type":"application/json"},
-      body:JSON.stringify({event_type:"completed-refresh",client_payload:{extract:raw}})});
-    if(r.status!==204)throw new Error(r.status===401||r.status===403||r.status===404?"GitHub refused the token: check it in Settings":"GitHub error "+r.status);
-    doneStatus("Sent. Your completed list will update in a minute or two; reload then to see it.");
-  }catch(e){doneStatus(`<span class="err">Couldn’t send to GitHub (${e.message}).</span>`)}
-}
+const els={start:$("start"),date:$("date"),early:$("early"),inc:$("incDone"),car:$("car"),traffic:$("traffic"),tolls:$("avTolls"),high:$("avHigh"),ferry:$("avFerry"),key:$("key"),counter:$("counter")};
 let routeType=store.get("ptp.route","eco");
 function setRoute(v){routeType=v;[...$("routeSeg").children].forEach(b=>b.classList.toggle("on",b.dataset.v===v))}
 setRoute(routeType);
@@ -470,7 +427,7 @@ async function routeFor(s,c,early){
 }
 
 // ---------- done on this phone ----------
-try{localStorage.removeItem("ptp.done")}catch(e){}
+try{localStorage.removeItem("ptp.done");localStorage.removeItem("ptp.gh")}catch(e){}
 
 // ---------- main ----------
 let busy=false, lastLive=false;
@@ -579,7 +536,6 @@ els.key.addEventListener("change",()=>{saveSettings();liveChip()});
 els.counter.addEventListener("change",()=>{saveSettings();syncCount()});
 [els.car,els.traffic,els.tolls,els.high,els.ferry,els.early,els.date].forEach(el=>el.addEventListener("change",saveSettings));
 
-importFromHash();window.addEventListener("hashchange",importFromHash);
 run();
 })();
 </script>
