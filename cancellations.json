@@ -1,5 +1,5 @@
 {
- "checked": "2026-11-27T09:20:17Z",
+ "checked": "2026-11-27T18:44:11Z",
  "source": "parkrun app cancellations feed",
  "dates": {
   "2026-11-28": [
@@ -12,6 +12,14 @@
     "reason": "Venue unavailable"
    },
    {
+    "name": "Bolberry Down",
+    "reason": "Weather"
+   },
+   {
+    "name": "Bressay",
+    "reason": "Weather"
+   },
+   {
     "name": "Carlingwark Loch",
     "reason": "Shortage of volunteers"
    },
@@ -22,6 +30,10 @@
    {
     "name": "Coed Cefn-pwll-du",
     "reason": "Venue unavailable"
+   },
+   {
+    "name": "Glossop",
+    "reason": "Shortage of volunteers"
    },
    {
     "name": "Hanley",
@@ -60,8 +72,20 @@
     "reason": "Venue unavailable"
    },
    {
+    "name": "Swanley",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Teignmouth Promenade",
+    "reason": "Weather"
+   },
+   {
     "name": "University of Northampton",
     "reason": "Venue unavailable"
+   },
+   {
+    "name": "Wakefield Thornes",
+    "reason": "Course unsafe or blocked"
    },
    {
     "name": "Watermeadows",
@@ -1951,6 +1975,10 @@
    },
    {
     "name": "Penistone",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Penrhyn",
     "reason": "Venue unavailable"
    },
    {
