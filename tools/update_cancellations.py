@@ -7,7 +7,7 @@ Saturday plus Christmas Day and New Year's Day. Event numbers are turned into
 names using parkrun's events list; if that can't be read, the last saved
 copy of the UK names (tools/uk_events.json) is used.
 """
-import json, sys, urllib.request, datetime, os
+import json, sys, urllib.request, datetime, os, gzip
 
 CANC_URL = "https://saprodweparkrun01.blob.core.windows.net/static/cancellationsV2.json"
 EVENTS_URL = "https://images.parkrun.com/events.json"
@@ -20,7 +20,10 @@ OUT = os.path.join(ROOT, "cancellations.json")
 
 def get(url):
     with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as r:
-        return json.load(r)
+        body = r.read()
+    if body[:2] == b"\x1f\x8b":  # the feed is stored gzipped
+        body = gzip.decompress(body)
+    return json.loads(body.decode("utf-8-sig"))
 
 
 def uk_names():
