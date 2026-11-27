@@ -1,0 +1,27 @@
+name: Cancellations
+# Friday 18:00 and 21:00, Saturday 05:00, 06:00 and 07:00 (UTC, which is UK time in winter; an hour later in summer)
+on:
+  schedule:
+    - cron: "0 18,21 * * 5"
+    - cron: "0 5,6,7 * * 6"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: cancellations
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refresh cancellations
+        run: |
+          python3 tools/update_cancellations.py | tee summary.txt
+          echo "::notice::$(cat summary.txt)"
+      - name: Commit if anything changed
+        run: |
+          git config user.name "Aaron Wright"
+          git config user.email "aaronjwright@users.noreply.github.com"
+          git add cancellations.json tools/uk_events.json
+          if git diff --cached --quiet; then echo "Nothing new"; exit 0; fi
+          git commit -m "Cancellations update" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+          git push

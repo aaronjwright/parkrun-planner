@@ -233,8 +233,11 @@ const todoCount=all.filter(e=>!e.done).length;
 let CANC=null;
 try{CANC=await (await fetch("cancellations.json",{cache:"no-store"})).json()}catch(e){}
 const norm=n=>String(n).toLowerCase().replace(/[’']/g,"'").replace(/\s+parkrun$/,"").trim();
+// cancellations.json holds every upcoming date ({checked, dates:{date:[{name,reason}]}}); older files held one date
+const cancList=d=>!CANC?[]:CANC.dates?(CANC.dates[d]||[]):(CANC.date===d?CANC.events||[]:[]);
+const cancCovers=d=>!!CANC&&(CANC.dates?d>=todayIso():CANC.date===d);
 function cancFor(dateIso){
-  const m={}; if(CANC&&CANC.date===dateIso)(CANC.events||[]).forEach(c=>m[norm(c.name)]=c.reason||"Cancelled"); return m;
+  const m={}; if(cancCovers(dateIso))cancList(dateIso).forEach(c=>m[norm(c.name)]=c.reason||"Cancelled"); return m;
 }
 
 // ---------- status chips ----------
@@ -322,9 +325,9 @@ function liveChip(){
 liveChip(); syncCount();
 function cancChip(){
   const link=`<a href="https://www.parkrun.org.uk/cancellations/" target="_blank" rel="noopener" style="color:inherit">live list</a>`;
-  if(CANC&&CANC.date===els.date.value){
+  if(cancCovers(els.date.value)){
     const t=new Date(CANC.checked).toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
-    const n=(CANC.events||[]).length, ts=new Date(CANC.checked).toLocaleString("en-GB",{weekday:"short",hour:"2-digit",minute:"2-digit"});
+    const n=cancList(els.date.value).length, ts=new Date(CANC.checked).toLocaleString("en-GB",{weekday:"short",hour:"2-digit",minute:"2-digit"});
     chip($("cancChip"),"Cancellations",[`checked ${t}`,`${n} UK events off`,link],false,false,{icon:"ban",text:`${n} cancelled · ${ts}`,alert:n>0});
   }else chip($("cancChip"),"Cancellations",["not checked for this date yet",link],false,false,{icon:"ban",text:"Not checked"});
 }
