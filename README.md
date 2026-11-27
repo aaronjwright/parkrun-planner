@@ -7,6 +7,11 @@ A personal, single-page parkrun travel planner for Aaron. It ranks the nearest U
 
 The Google Maps key is never stored in this repo. It's entered once on the phone and kept in that browser only. The key itself is restricted to this site's address and the Routes API.
 
+## Cancellations
+
+- `.github/workflows/cancellations.yml` runs `tools/update_cancellations.py` on Friday at 18:00 and 21:00 and Saturday at 05:00, 06:00 and 07:00 (UTC, so an hour later in UK summer time). It reads the static cancellations feed used by parkrun's own app (an Azure blob, not parkrun's web servers; suggested by Alex at Parkrace, not an approved route), keeps UK 5k events for every upcoming Saturday plus 25 Dec and 1 Jan, and writes `cancellations.json`.
+- Event numbers are matched to names using parkrun's events list; the last good copy is kept in `tools/uk_events.json`.
+
 ## Google usage limits
 
 - Live refreshes use the Routes API (Pro tier): 5,000 free per SKU per month, resetting at midnight Pacific on the 1st (8am UK). The travel-time matrix (25 elements per refresh) runs out first, at about 200 refreshes.
