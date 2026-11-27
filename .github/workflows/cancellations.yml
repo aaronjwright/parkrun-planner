@@ -1,9 +1,12 @@
 name: Cancellations
-# Friday 18:00 and 21:00, Saturday 05:00, 06:00 and 07:00 (UTC, which is UK time in winter; an hour later in summer)
+# Runs at UK time (Europe/London), all year round:
+#   Friday 18:00 and 21:00, Saturday 05:00, 06:00 and 07:00.
+# GitHub only schedules in UTC, so each slot is listed for both GMT and BST,
+# and the first step skips the run unless the UK clock shows one of those hours.
 on:
   schedule:
-    - cron: "0 18,21 * * 5"
-    - cron: "0 5,6,7 * * 6"
+    - cron: "0 17,18,20,21 * * 5"
+    - cron: "0 4,5,6,7 * * 6"
   workflow_dispatch:
   push:
     paths: ['tools/update_cancellations.py', '.github/workflows/cancellations.yml']
@@ -14,8 +17,19 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      - name: Check UK time
+        id: uk
+        run: |
+          slot="$(TZ=Europe/London date +%u-%H)"
+          echo "UK time: $(TZ=Europe/London date '+%a %d %b %H:%M %Z')"
+          case "$slot" in
+            5-18|5-21|6-05|6-06|6-07) echo "go=yes" >> "$GITHUB_OUTPUT" ;;
+            *) if [ "${{ github.event_name }}" = "schedule" ]; then echo "go=no" >> "$GITHUB_OUTPUT"; echo "Not a UK-time slot, skipping"; else echo "go=yes" >> "$GITHUB_OUTPUT"; fi ;;
+          esac
       - uses: actions/checkout@v4
+        if: steps.uk.outputs.go == 'yes'
       - name: Refresh cancellations
+        if: steps.uk.outputs.go == 'yes'
         run: |
           if python3 tools/update_cancellations.py > summary.txt 2> errors.txt; then
             echo "::notice::$(cat summary.txt)"; cat errors.txt
@@ -23,6 +37,7 @@ jobs:
             echo "::error::$(tr '\n' ' ' < errors.txt | tail -c 600)"; exit 1
           fi
       - name: Commit if anything changed
+        if: steps.uk.outputs.go == 'yes'
         run: |
           git config user.name "Aaron Wright"
           git config user.email "aaronjwright@users.noreply.github.com"

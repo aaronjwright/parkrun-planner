@@ -9,12 +9,12 @@ The Google Maps key is never stored in this repo. It's entered once on the phone
 
 ## Cancellations
 
-- `.github/workflows/cancellations.yml` runs `tools/update_cancellations.py` on Friday at 18:00 and 21:00 and Saturday at 05:00, 06:00 and 07:00 (UTC, so an hour later in UK summer time). It reads the static cancellations feed used by parkrun's own app (an Azure blob, not parkrun's web servers; suggested by Alex at Parkrace, not an approved route), keeps UK 5k events for every upcoming Saturday plus 25 Dec and 1 Jan, and writes `cancellations.json`.
+- `.github/workflows/cancellations.yml` runs `tools/update_cancellations.py` on Friday at 18:00 and 21:00 and Saturday at 05:00, 06:00 and 07:00, UK time all year round. It reads the static cancellations feed used by parkrun's own app (an Azure blob, not parkrun's web servers; suggested by Alex at Parkrace, not an approved route), keeps UK 5k events for every upcoming Saturday plus 25 Dec and 1 Jan, and writes `cancellations.json`.
 - Event numbers are matched to names using parkrun's events list; the last good copy is kept in `tools/uk_events.json`.
 
 ## Google usage limits
 
-- Live refreshes use the Routes API (Pro tier): 5,000 free per SKU per month, resetting at midnight Pacific on the 1st (8am UK). The travel-time matrix (25 elements per refresh) runs out first, at about 200 refreshes.
+- Live refreshes use the Routes API (Pro tier): 5,000 free per SKU per month, resetting at midnight Pacific on the 1st (8am UK time, 7am in the few weeks when UK and US clocks change on different dates). The travel-time matrix (25 elements per refresh) runs out first, at about 200 refreshes.
 - `tools/refresh_counter.gs` (Apps Script project “Parkrun refresh counter”, deployed as a web app) reads Google’s own month-to-date usage from Cloud Monitoring. Its URL goes in the planner’s Settings → Google usage link on each device (kept private, not in this repo). The planner stops live refreshes at 4,500.
 - Google Cloud daily quotas as a backstop: ComputeRouteMatrix 500 elements/day, ComputeRoutes 200 requests/day (about 20 refreshes a day). £1 budget alert on the billing account.
 
