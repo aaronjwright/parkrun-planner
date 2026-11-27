@@ -17,8 +17,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Refresh cancellations
         run: |
-          python3 tools/update_cancellations.py | tee summary.txt
-          echo "::notice::$(cat summary.txt)"
+          if python3 tools/update_cancellations.py > summary.txt 2> errors.txt; then
+            echo "::notice::$(cat summary.txt)"; cat errors.txt
+          else
+            echo "::error::$(tr '\n' ' ' < errors.txt | tail -c 600)"; exit 1
+          fi
       - name: Commit if anything changed
         run: |
           git config user.name "Aaron Wright"
