@@ -1,31 +1,3368 @@
 {
-  "date": "2026-11-21",
-  "checked": "2026-11-20T21:07:11Z",
-  "events": [
-    {"name": "ARU Writtle", "reason": "Venue unavailable"},
-    {"name": "Ae Forest", "reason": "Venue unavailable"},
-    {"name": "Albert", "reason": "Course unsafe or blocked"},
-    {"name": "Belfast Victoria", "reason": "Shortage of volunteers"},
-    {"name": "Belvoir Forest", "reason": "Shortage of volunteers"},
-    {"name": "Carrickfergus", "reason": "Venue unavailable"},
-    {"name": "Croxteth Hall", "reason": "Venue unavailable"},
-    {"name": "Cuningar Loop", "reason": "Weather"},
-    {"name": "Downham Market Academy", "reason": "Weather"},
-    {"name": "Flegg High", "reason": "Venue unavailable"},
-    {"name": "Hazlehead", "reason": "Course unsafe or blocked"},
-    {"name": "Highcliffe Beach", "reason": "Course unsafe or blocked"},
-    {"name": "Jesmond Dene", "reason": "Course unsafe or blocked"},
-    {"name": "Lordship Recreation Ground", "reason": "Venue unavailable"},
-    {"name": "Markshall", "reason": "Permission issue"},
-    {"name": "Montalto Estate", "reason": "Venue unavailable"},
-    {"name": "Ormskirk", "reason": "Venue unavailable"},
-    {"name": "Queen Elizabeth’s Grammar School", "reason": "Venue unavailable"},
-    {"name": "Ruchill", "reason": "Weather"},
-    {"name": "Strathclyde", "reason": "Weather"},
-    {"name": "Swanley", "reason": "Venue unavailable"},
-    {"name": "Town Moor", "reason": "Venue unavailable"},
-    {"name": "Watermeadows", "reason": "Course unsafe or blocked"},
-    {"name": "Wetherby", "reason": "Shortage of volunteers"},
-    {"name": "Worthing", "reason": "Course unsafe or blocked"}
+ "checked": "2026-11-27T09:14:07Z",
+ "source": "parkrun app cancellations feed",
+ "dates": {
+  "2026-11-28": [
+   {
+    "name": "Alderley Park",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Antrim",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Carlingwark Loch",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Coed Cefn-pwll-du",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Hanley",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Highcliffe Beach",
+    "reason": "Course unsafe or blocked"
+   },
+   {
+    "name": "Holyrood",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Homewood",
+    "reason": "Course unsafe or blocked"
+   },
+   {
+    "name": "Jesmond Dene",
+    "reason": "Course unsafe or blocked"
+   },
+   {
+    "name": "Nant y Pandy",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Oakwell Hall",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Queen Elizabeth’s Grammar School",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Rising Sun",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "University of Northampton",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Watermeadows",
+    "reason": "Course unsafe or blocked"
+   },
+   {
+    "name": "Whitekirk Hill",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Worden",
+    "reason": "Venue unavailable"
+   }
+  ],
+  "2026-12-05": [
+   {
+    "name": "Blaise Castle",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Brackenhurst Campus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Cranbrook Country Park",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Croxteth Hall",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Drumlanrig Castle",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Grizedale Forest",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Hanley",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Llanerchaeron",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Monsal Trail",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Normanby Hall",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Tetbury Goods Shed",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Watermeadows",
+    "reason": "Course unsafe or blocked"
+   },
+   {
+    "name": "Witton",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Worcester",
+    "reason": "Venue unavailable"
+   }
+  ],
+  "2026-12-12": [
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Dunfermline",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Holkham",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Llanerchaeron",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Mount Edgcumbe",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Watermeadows",
+    "reason": "Course unsafe or blocked"
+   }
+  ],
+  "2026-12-19": [
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Gateshead",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Hereford",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Llanerchaeron",
+    "reason": "Venue unavailable"
+   }
+  ],
+  "2026-12-25": [
+   {
+    "name": "Abbey Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Abbot’s Wood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Abingdon",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ally Pally",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Alton Water",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Anagach Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Antrim",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ashbourne Recreation Ground",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ashton Court",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Banstead Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Barclay",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Barnstaple",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bartley Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Battlestead Croft",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Baysgarth Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beccles Quay",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bedfont Lakes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bedworth",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beecraigs Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Belvoir Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Berkeley Green",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bevendean Down",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beverley Westwood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Birkenhead",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bittesby Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Black Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Blackhill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Blaise Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Blandford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Blickling",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bournemouth",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bo’ness Foreshore",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brackenhurst Campus",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bracknell",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bramshall Road",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brentwood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brierley Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brighton & Hove",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brimstage",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brixworth Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brockenhurst",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brocks Hill Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brockwell",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brooklands",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Broughty Ferry Esplanade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brundall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brunswick Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bug Hunter Waters",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Burnage",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Burnham and Highbridge",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bury Field",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bury St Edmunds",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Canterbury",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Carlisle Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Carrickfergus",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Castlewellan",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Catton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chasewater",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cheadle Hulme",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chester",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chesterford Research Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chilton Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chippenham Playing Fields, Monmouth",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chipping Norton School",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chopwell Wood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Christie",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cirencester",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Citypark",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Clare Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Clarence",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Claudy Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Clevedon Salthouse Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Clumber Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cockermouth Greenway",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cockington Court",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Coed Cefn-pwll-du",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cofton Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Colby Woodland Garden",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Colney Lane",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Compton Abbas Airfield",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Conwy",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cosmeston Lakes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cotsford Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cranbrook Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Crawfordsburn Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Crichton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Crinan Canal",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Crystal Palace",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cusworth Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cycle Route 43, Ystalyfera",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dartford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Daventry",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Denton Dene",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dereham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dishley, Loughborough",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dover Waterfront",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Downs Link, Shoreham-by-Sea",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Drumchapel",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dudley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dunfermline",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dunstable Downs",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Durlston Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "East Brighton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "East Grinstead",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Eastville",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Egham Orbit",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Eglinton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ellesmere Port",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Endcliffe",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Enniskillen",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Exmouth",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Faskally Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "FeldyRoo Fitness Trail",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Felixstowe",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fell Foot",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Festival Green",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fire Service College",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fitzmaurice Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Five Arches",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Flatts Lane",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fleetwood Promenade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Flegg High",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fletcher Moss",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Flint Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Foots Cray Meadows",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fordingbridge Recreation Ground",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Forfar Loch",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fountains Abbey",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Frank’s Farm",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fulbourn Hospital",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fulwell Quarry",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ganger Farm",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Gedling",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Gibraltar Botanical Gardens",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Girvan Prom",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Gloucester City",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Gorleston Cliffs",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Grangemoor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Graves",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Great Yarmouth North Beach",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Greendale Farm Shop",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Greenfield Valley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Greenwich Peninsula",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Grizedale Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Grove Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hadleigh",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hafan Pwllheli",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Haigh Woodland",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Haldon Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hamsterley Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hanworth",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Harrow",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Harrow Lodge",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Haughmond Hill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Havant",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hazelwood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Henley Wood, Oswestry",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Henley-on-Thames",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Henlow Bridge Lakes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Heritage Coastal Path, Easington",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Heslington",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hillsborough",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hillsborough Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hockley Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Holbrooks",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Holkham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Holme Pierrepont",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Holywell King George V Playing Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Horspath",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hove Promenade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Humber Bridge",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hunstanton Promenade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ifield Mill Pond",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Impey Walk Knightshayes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ingrebourne Hill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Irchester Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Isabel Trail",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Jersey Farm",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Jeskyns Community Woodland",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Jubilee",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Jubilee, Bedford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kettering",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kew Wakehurst",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kew Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kilkenny Lane Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Killerton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kingdom",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kingsbury Water",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kingsway",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kirkharle Courtyard",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Knowsley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lanark Moor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lancing Beach Green",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Land’s End",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Leicester Victoria",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Letchworth",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Levengrove",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lews Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Limavady",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lingwood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Littleport",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Llanerchaeron",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Llanishen Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Loch Leven",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Loch Neaton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lochore Meadows",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lough Head",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lowestoft",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lydiard",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lytham Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Maesteg",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Mallards Pike",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Malling Rec",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Manor Field, Whittlesey",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Marine Parade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Markeaton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Market Bosworth Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Market Rasen Racecourse",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Marshall Drive",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Meadowmill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Melksham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Mersea Island",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Middleton Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Millennium Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Millhouses",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Milton Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Montalto Estate",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Moors Valley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Morden",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Morecambe Prom",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Mortimer Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Mote Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Muncaster Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "MUSA Cookstown",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Newbiggin-by-the-Sea",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Newborough Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Norfolk Showground Trail",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Normanby Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "North Yorkshire Water Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Northampton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Norwich",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Nostell",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Oakey Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Oaklands College",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Oakwell Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Old Railway Trail, Llangollen",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Orangefield",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ormeau",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Orpington",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Osterley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Oxford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Palacerigg Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Parc Dewi Sant",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Park in the Past",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Parke",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Peel",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penallta",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Pennington Flash",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penrhyn",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penrith",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penrose",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Perry Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Peter Pan",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Philips Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Phoenix",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Plean",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Pocket",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Pont y Bala",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Pontypool",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Porthcawl",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Portrush",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Portsmouth Lakeside",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Potternewton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Preston",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Princes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Queenswood Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Queen’s, Belfast",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Raphael",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rising Sun",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Riverside",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Riverside Park, Glenrothes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Riverside, Ballymoney",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rostrevor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rothamsted Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rothay Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rother Valley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rotherham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rushmere",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rutland Water",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Salcey Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sandhurst Memorial",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sandringham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sandwell Valley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sandy Water",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Severn Bridge",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sewerby",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sharpham Road Playing Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sheffield Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Shepton Mallet",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sheringham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sherwood Pines",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Shipley Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Shorne Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Simmons Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sixfields Upton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sixmilewater",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Skinadin",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sloughbottom",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Snowden Field",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Soham Village College",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Somerdale Pavilion",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "South Norwood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "South Oxhey",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Southend",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Southwark",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Southwick Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Springburn",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Squerryes Winery",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "St Albans",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "St Matthew’s Field",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stanborough",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stewart",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stonehouse",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stratford-upon-Avon",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Strathclyde",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stretford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sutton Manor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Swaffham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Swanley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Swansea Bay",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Talkin Tarn Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Tamar Lakes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Tawd Valley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Teignmouth Promenade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Temple Newsam",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thames Path, Woolwich",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "The Old Showfield",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "The Plens",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thomas Mills",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thornbury",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thorney Bay Beach",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thoulstone",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Three Brooks",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thurrock",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thurso",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Tonbridge",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Tooting Common",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Town Moor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Tremorfa",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Trentham Gardens",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Tyne Green",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "University of Stirling",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Upton Court",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Upton House",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ury Riverside",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ushaw Historic House",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Vale Park, Burslem",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Vermuyden Way",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Vicar Water Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Victoria Embankment",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Victoria Park, Newbury",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Vogrie",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wallaceneuk",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Walthamstow",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Watermead Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wendover Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wepre",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "West Stow Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Westmill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wetherby",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Whinlatter Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wilton Lodge Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wimbledon Common",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wimpole Estate",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Windy Nook",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wisbech",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Woking",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wolverhampton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Woodbank",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Woodgate Valley Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Worcester Pitchcroft",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Worden",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wormwood Scrubs",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wycombe Rye",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wynyard Woodland",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wyre Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Y Promenâd",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Y Promenâd, Abermaw",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Yarborough Leisure Centre",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "York Community Woodland",
+    "reason": "Not holding a special event"
+   }
+  ],
+  "2026-12-26": [
+   {
+    "name": "Antrim",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Beecraigs Country Park",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Belvoir Castle",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Bowling Park",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Broadwater",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Bryn Bach",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Burnage",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Chesterford Research Park",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Clevedon Salthouse Fields",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Cockington Court",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Colby Woodland Garden",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Dalkeith Country Park",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Didcot",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Dover Waterfront",
+    "reason": "Equipment unavailable"
+   },
+   {
+    "name": "Downham Market Academy",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Dudley",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Eden Project",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Egham Orbit",
+    "reason": "Permission issue"
+   },
+   {
+    "name": "Erddig",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Fire Service College",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Forfar Loch",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Gadebridge",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Ganger Farm",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Hamsterley Forest",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Harcourt Hill",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Hazelwood",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Henley Wood, Oswestry",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Herrington Country",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Heslington",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Holme Pierrepont",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Impey Walk Knightshayes",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Ingrebourne Hill",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Kew Wakehurst",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Killerton",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Kingdom",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Kirkcaldy",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Kirkharle Courtyard",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Lanhydrock",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Littleport",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Lytham Hall",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Market Bosworth Country Park",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Market Rasen Racecourse",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Millennium Country",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Montalto Estate",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Moors Valley",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Mount Edgcumbe",
+    "reason": "Equipment unavailable"
+   },
+   {
+    "name": "North Walsham",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Oaklands College",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Oakwell Hall",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Ormeau",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Penistone",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Portsmouth Lakeside",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Preston Park",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Queen’s, Belfast",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Queen’s, Glasgow",
+    "reason": "Equipment unavailable"
+   },
+   {
+    "name": "Sandall Park",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Sandwell Valley",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Sewerby",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Sheringham",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Somerdale Pavilion",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Southwark",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Teignmouth Promenade",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Thonock Lane Farm",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Thornbury",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Ushaw Historic House",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Walthamstow",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "West Stow Country",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Whitley Bay",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Worden",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Yarborough Leisure Centre",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "York Community Woodland",
+    "reason": "Permission issue"
+   }
+  ],
+  "2027-01-01": [
+   {
+    "name": "Abbey Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Abbot’s Wood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Aberdare",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Abingdon",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ae Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Alderley Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Alvaston",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Antrim",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ashford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ashington Community Woodland",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Aviemore",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Barking",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bartley Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Basildon",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Battlestead Croft",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beacon",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beccles Quay",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beckenham Place",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bedfont Lakes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beecraigs Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beeston",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Belvoir Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Berkeley Green",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bethlem Royal Hospital",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Beverley Westwood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Blackhill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Blaise Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Blandford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bolton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bracknell",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brickfields Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brighton & Hove",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brimstage",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Broadwater",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brockenhurst",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brocks Hill Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brockwell",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brooklands",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Broughty Ferry Esplanade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brundall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Brunswick Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Burnage",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Burnham and Highbridge",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bury Field",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bury St Edmunds",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cannock Chase",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Carlisle Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Carrickfergus",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Catton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cheadle Hulme",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chelmsford Central",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cheltenham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chester",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chesterford Research Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chilton Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chipping Norton School",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chipping Sodbury",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Chopwell Wood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Christie",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Clair",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Clapham Common",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cleethorpes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Clitheroe Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Clumber Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cockermouth Greenway",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cockington Court",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Coed Cefn-pwll-du",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cofton Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Colby Woodland Garden",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Colchester Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Coldham’s Common",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Colney Lane",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Compton Abbas Airfield",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Concord",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Conwy",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Conyngham Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cosmeston Lakes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cotsford Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Crane Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Crathes Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Crinan Canal",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Crystal Palace",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cuningar Loop",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Cusworth Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dartford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Daventry",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dereham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Derry City",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Didcot",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dolgellau",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dover Waterfront",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Downham Market Academy",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Downs Link, Shoreham-by-Sea",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Drumpellier Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Dudley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Durlston Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "East Brighton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "East Grinstead",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "East Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Egham Orbit",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ellesmere Port",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Endcliffe",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Erskine Waterfront",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Evesham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Exeter Riverside",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Falkirk",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "FeldyRoo Fitness Trail",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Festival Green",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Finsbury Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fire Service College",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fitzmaurice Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Five Arches",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Flatts Lane",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fleetwood Promenade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Flegg High",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fletcher Moss",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Flint Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Foots Cray Meadows",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fountains Abbey",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Frank’s Farm",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fulbourn Hospital",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Fulwell Quarry",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Gadebridge",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ganger Farm",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Gateshead",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Gibraltar Botanical Gardens",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Gnoll",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Grangemoor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Great Lines",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Great Yarmouth North Beach",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Greenham Common, Newbury",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Greenwich Peninsula",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Grizedale Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Grove Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Guernsey",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hackney Marshes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hadleigh",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Haldon Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Halifax",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hamsterley Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hanworth",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Harleston Magpies",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hastings High School",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Haughmond Hill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hazelwood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Henley Wood, Oswestry",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Henley-on-Thames",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Henlow Bridge Lakes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Heslington",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hillsborough Forest",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Holbrooks",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Holme Pierrepont",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Holyrood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Holywell King George V Playing Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Hunstanton Promenade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ifield Mill Pond",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Impey Walk Knightshayes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ingrebourne Hill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Isabel Trail",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Jersey Farm",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Jesmond Dene",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kew Wakehurst",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kew Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Killerton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kingdom",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kingsway",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Kirkharle Courtyard",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Knowsley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lancaster",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lancing Beach Green",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Levengrove",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Leybourne Lakes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Limavady",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lingwood",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lister Park, Bradford",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Littleport",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Llanerchaeron",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Llyn Llech Owain",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Loch Neaton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lochore Meadows",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Longrun Meadow",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lough Head",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Lurgan Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Macclesfield",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Maesteg",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Marine Parade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Market Rasen Racecourse",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Marshall Drive",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Medina I.O.W.",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Mersea Island",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Mildenhall Hub",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Moors Valley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Morden",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Muncaster Castle",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "MUSA Cookstown",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Nobles",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Norfolk Showground Trail",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "North Yorkshire Water Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Northala Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Northallerton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Norwich",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Nostell",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Nova Prestatyn",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Oakey Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Oaklands College",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Oakwell Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Oriam",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Palacerigg Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Parc Coed Gwilym",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Parc Dewi Sant",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Park in the Past",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Parke",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Peel",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penallta",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penistone",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penrhyn",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penrith",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Penrose",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Perry Hall",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Perton Playing Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Philips Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Phoenix",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Pocket",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Pontypool",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Poole",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Porthcawl",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Portsmouth Lakeside",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Preston",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Preston Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Princes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Queenswood Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Queen’s, Belfast",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rising Sun",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Riverside, Ballymoney",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rostrevor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rothamsted Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rothay Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rother Valley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Rotherham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Roundhay",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Royal Tunbridge Wells",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sandall Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sandwell Valley",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sandy Water",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Seaton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Severn Bridge",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sewerby",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sharpham Road Playing Fields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Shepton Mallet",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sherwood Pines",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Shrewsbury",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sixmilewater",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sloughbottom",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Somerdale Pavilion",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "South Oxhey",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "South Shields",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Southwark",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Squerryes Winery",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "St Andrews",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "St Mary’s",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "St Matthew’s Field",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stamford Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stewart",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stockley Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Stonehouse",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sunny Hill",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Sutton Manor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Swaffham",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Talkin Tarn Country Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Tamworth Castle Grounds",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Teignmouth Promenade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Temple Newsam",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "The Old Showfield",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "The Pastures",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "The Plens",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thomas Mills",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thonock Lane Farm",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thornbury",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thorney Bay Beach",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Thoulstone",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Town Moor",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Tremorfa",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Uckfield",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "University of Northampton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "University of Stirling",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Upton Court",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ury Riverside",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Ushaw Historic House",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Vale Park, Burslem",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Vermuyden Way",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Victoria Park, Newbury",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Vogrie",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wakefield Thornes",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wallace",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Walsall Arboretum",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Walthamstow",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Walton Promenade",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "West Stow Country",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wetherby",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Weymouth",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wilton Lodge Park",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Windy Nook",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Witney",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Witton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Woking",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Worcester",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wormwood Scrubs",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Worsley Woods",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Worthing",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Wotton",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Y Promenâd",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Yarborough Leisure Centre",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "York Community Woodland",
+    "reason": "Not holding a special event"
+   }
+  ],
+  "2027-01-02": [
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Colby Woodland Garden",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Dover Waterfront",
+    "reason": "Equipment unavailable"
+   },
+   {
+    "name": "Greendale Farm Shop",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "Ingrebourne Hill",
+    "reason": "Shortage of volunteers"
+   },
+   {
+    "name": "North Walsham",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Oakwell Hall",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Queen’s, Glasgow",
+    "reason": "Equipment unavailable"
+   }
+  ],
+  "2027-01-09": [
+   {
+    "name": "Alice Holt",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Rother Valley",
+    "reason": "Venue unavailable"
+   }
+  ],
+  "2027-01-16": [
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Warwick Racecourse",
+    "reason": "Venue unavailable"
+   }
+  ],
+  "2027-01-23": [
+   {
+    "name": "ARU Writtle",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Carrickfergus",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Reigate Priory",
+    "reason": "Venue unavailable"
+   },
+   {
+    "name": "Witton",
+    "reason": "Venue unavailable"
+   }
   ]
+ }
 }
