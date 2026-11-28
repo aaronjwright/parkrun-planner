@@ -1,5 +1,5 @@
 {
- "checked": "2026-11-27T21:45:58Z",
+ "checked": "2026-11-28T05:51:27Z",
  "source": "parkrun app cancellations feed",
  "dates": {
   "2026-11-28": [
@@ -241,6 +241,10 @@
    },
    {
     "name": "Ashton Court",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bangor",
     "reason": "Not holding a special event"
    },
    {
@@ -1093,6 +1097,10 @@
    },
    {
     "name": "Mersea Island",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Merthyr",
     "reason": "Not holding a special event"
    },
    {
@@ -2108,6 +2116,10 @@
     "reason": "Not holding a special event"
    },
    {
+    "name": "Bangor",
+    "reason": "Not holding a special event"
+   },
+   {
     "name": "Barking",
     "reason": "Not holding a special event"
    },
@@ -2164,6 +2176,10 @@
     "reason": "Not holding a special event"
    },
    {
+    "name": "Birkenhead",
+    "reason": "Not holding a special event"
+   },
+   {
     "name": "Blackhill",
     "reason": "Not holding a special event"
    },
@@ -2181,6 +2197,10 @@
    },
    {
     "name": "Bracknell",
+    "reason": "Not holding a special event"
+   },
+   {
+    "name": "Bramley",
     "reason": "Not holding a special event"
    },
    {
